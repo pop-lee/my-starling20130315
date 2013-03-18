@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+<productClass className="商务" imgUrl="assets/images/products/Border.jpg">
+		<product productName="test1">
+			<color imgUrl="assets/images/products/shoe1/1.png" />
+			<color imgUrl="assets/images/products/shoe1/2.png" />
+			<color imgUrl="assets/images/products/shoe1/3.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test2">
+			<color imgUrl="assets/images/products/shoe2/1.png" />
+			<color imgUrl="assets/images/products/shoe2/2.png" />
+			<color imgUrl="assets/images/products/shoe2/3.png" />
+			<color imgUrl="assets/images/products/shoe2/4.png" />
+			<color imgUrl="assets/images/products/shoe2/5.png" />
+			<color imgUrl="assets/images/products/shoe2/6.png" />
+			<color imgUrl="assets/images/products/shoe2/7.png" />
+			<color imgUrl="assets/images/products/shoe2/8.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test3">
+			<color imgUrl="assets/images/products/shoe3/1.png" />
+			<color imgUrl="assets/images/products/shoe3/2.png" />
+			<color imgUrl="assets/images/products/shoe3/3.png" />
+			<color imgUrl="assets/images/products/shoe3/4.png" />
+			<color imgUrl="assets/images/products/shoe3/5.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test4">
+			<color imgUrl="assets/images/products/shoe4/1.png" />
+			<color imgUrl="assets/images/products/shoe4/2.png" />
+			<color imgUrl="assets/images/products/shoe4/3.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test5">
+			<color imgUrl="assets/images/products/shoe5/1.png" />
+			<color imgUrl="assets/images/products/shoe5/2.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test6">
+			<color imgUrl="assets/images/products/shoe6/1.png" />
+			<color imgUrl="assets/images/products/shoe6/2.png" />
+			<color imgUrl="assets/images/products/shoe6/3.png" />
+			<color imgUrl="assets/images/products/shoe6/4.png" />
+			<color imgUrl="assets/images/products/shoe6/5.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test7">
+			<color imgUrl="assets/images/products/shoe7/1.png" />
+			<color imgUrl="assets/images/products/shoe7/2.png" />
+			<color imgUrl="assets/images/products/shoe7/3.png" />
+			<color imgUrl="assets/images/products/shoe7/4.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+	</productClass>
+	<productClass className="休闲" imgUrl="assets/images/products/Border.jpg">
+		<product productName="test1">
+			<color imgUrl="assets/images/products/shoe1/1.png" />
+			<color imgUrl="assets/images/products/shoe1/2.png" />
+			<color imgUrl="assets/images/products/shoe1/3.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test2">
+			<color imgUrl="assets/images/products/shoe2/1.png" />
+			<color imgUrl="assets/images/products/shoe2/2.png" />
+			<color imgUrl="assets/images/products/shoe2/3.png" />
+			<color imgUrl="assets/images/products/shoe2/4.png" />
+			<color imgUrl="assets/images/products/shoe2/5.png" />
+			<color imgUrl="assets/images/products/shoe2/6.png" />
+			<color imgUrl="assets/images/products/shoe2/7.png" />
+			<color imgUrl="assets/images/products/shoe2/8.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test3">
+			<color imgUrl="assets/images/products/shoe3/1.png" />
+			<color imgUrl="assets/images/products/shoe3/2.png" />
+			<color imgUrl="assets/images/products/shoe3/3.png" />
+			<color imgUrl="assets/images/products/shoe3/4.png" />
+			<color imgUrl="assets/images/products/shoe3/5.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test4">
+			<color imgUrl="assets/images/products/shoe4/1.png" />
+			<color imgUrl="assets/images/products/shoe4/2.png" />
+			<color imgUrl="assets/images/products/shoe4/3.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test5">
+			<color imgUrl="assets/images/products/shoe5/1.png" />
+			<color imgUrl="assets/images/products/shoe5/2.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test6">
+			<color imgUrl="assets/images/products/shoe6/1.png" />
+			<color imgUrl="assets/images/products/shoe6/2.png" />
+			<color imgUrl="assets/images/products/shoe6/3.png" />
+			<color imgUrl="assets/images/products/shoe6/4.png" />
+			<color imgUrl="assets/images/products/shoe6/5.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test7">
+			<color imgUrl="assets/images/products/shoe7/1.png" />
+			<color imgUrl="assets/images/products/shoe7/2.png" />
+			<color imgUrl="assets/images/products/shoe7/3.png" />
+			<color imgUrl="assets/images/products/shoe7/4.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+	</productClass>
+	<productClass className="运动" imgUrl="assets/images/products/Border.jpg">
+		<product productName="test1">
+			<color imgUrl="assets/images/products/shoe1/1.png" />
+			<color imgUrl="assets/images/products/shoe1/2.png" />
+			<color imgUrl="assets/images/products/shoe1/3.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test2">
+			<color imgUrl="assets/images/products/shoe2/1.png" />
+			<color imgUrl="assets/images/products/shoe2/2.png" />
+			<color imgUrl="assets/images/products/shoe2/3.png" />
+			<color imgUrl="assets/images/products/shoe2/4.png" />
+			<color imgUrl="assets/images/products/shoe2/5.png" />
+			<color imgUrl="assets/images/products/shoe2/6.png" />
+			<color imgUrl="assets/images/products/shoe2/7.png" />
+			<color imgUrl="assets/images/products/shoe2/8.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test3">
+			<color imgUrl="assets/images/products/shoe3/1.png" />
+			<color imgUrl="assets/images/products/shoe3/2.png" />
+			<color imgUrl="assets/images/products/shoe3/3.png" />
+			<color imgUrl="assets/images/products/shoe3/4.png" />
+			<color imgUrl="assets/images/products/shoe3/5.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test4">
+			<color imgUrl="assets/images/products/shoe4/1.png" />
+			<color imgUrl="assets/images/products/shoe4/2.png" />
+			<color imgUrl="assets/images/products/shoe4/3.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test5">
+			<color imgUrl="assets/images/products/shoe5/1.png" />
+			<color imgUrl="assets/images/products/shoe5/2.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test6">
+			<color imgUrl="assets/images/products/shoe6/1.png" />
+			<color imgUrl="assets/images/products/shoe6/2.png" />
+			<color imgUrl="assets/images/products/shoe6/3.png" />
+			<color imgUrl="assets/images/products/shoe6/4.png" />
+			<color imgUrl="assets/images/products/shoe6/5.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+		<product productName="test7">
+			<color imgUrl="assets/images/products/shoe7/1.png" />
+			<color imgUrl="assets/images/products/shoe7/2.png" />
+			<color imgUrl="assets/images/products/shoe7/3.png" />
+			<color imgUrl="assets/images/products/shoe7/4.png" />
+			<picture imgUrl="assets/images/shoes/1.png" />
+			<picture imgUrl="assets/images/shoes/2.png" />
+			<picture imgUrl="assets/images/shoes/3.png" />
+			<picture imgUrl="assets/images/shoes/4.png" />
+			<picture imgUrl="assets/images/shoes/5.png" />
+		</product>
+	</productClass>
+</data>
