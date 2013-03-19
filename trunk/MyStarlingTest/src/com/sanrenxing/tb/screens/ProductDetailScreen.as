@@ -48,7 +48,7 @@ package com.sanrenxing.tb.screens
 			this.addChild(_container);
 			
 			this._controlPane = new ScrollContainer();
-			this.addChild(_controlPane);
+//			this.addChild(_controlPane);
 			
 			var _infoPane :ScrollContainer = new ScrollContainer();
 			_infoPane.nameList.add(CustomComponentTheme.CONTROL_PANE_BACKGROUND);
@@ -122,18 +122,18 @@ package com.sanrenxing.tb.screens
 			this._controlPane.width = 400;
 			this._controlPane.x = -this._controlPane.width;
 			
-			this._colorPane.x = 750;
-			this._colorPane.y = -this._colorPane.height;
+//			this._colorPane.x = 750;
+//			this._colorPane.y = -this._colorPane.height;
 			
 			_colorScreen.width = this.actualWidth;
 			_colorScreen.height = this.actualHeight;
-			_colorScreen.init();
+//			_colorScreen.init();
 			_heatScreen.width = this.actualWidth;
 			_heatScreen.height = this.actualHeight;
-			_heatScreen.init();
+//			_heatScreen.init();
 			_viewScreen.width = this.actualWidth;
 			_viewScreen.height = this.actualHeight;
-			_viewScreen.init();
+//			_viewScreen.init();
 		}
 		
 		protected function enterEffect():void
@@ -143,9 +143,9 @@ package com.sanrenxing.tb.screens
 			Starling.juggler.delayCall(Starling.juggler.add,0.15,moveControlPaneTween);
 //			Starling.juggler.add(moveControlPaneTween);
 			
-			var moveColorPaneTween:Tween = new Tween(this._colorPane,0.3);
-			moveColorPaneTween.animate("y",0);
-			Starling.juggler.delayCall(Starling.juggler.add,0.35,moveColorPaneTween);
+//			var moveColorPaneTween:Tween = new Tween(this._colorPane,0.3);
+//			moveColorPaneTween.animate("y",0);
+//			Starling.juggler.delayCall(Starling.juggler.add,0.35,moveColorPaneTween);
 			
 			
 //			var moveColorPaneTween:Tween = new Tween(

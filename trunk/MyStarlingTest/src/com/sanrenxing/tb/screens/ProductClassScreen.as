@@ -3,7 +3,7 @@ package com.sanrenxing.tb.screens
 	import com.sanrenxing.tb.components.ProductClassBox;
 	import com.sanrenxing.tb.models.CustomComponentTheme;
 	import com.sanrenxing.tb.models.ModelLocator;
-	import com.sanrenxing.tb.utils.MURLLoader;
+	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductClassElementData;
 	
 	import flash.display.Bitmap;
@@ -50,15 +50,16 @@ package com.sanrenxing.tb.screens
 		{
 			const classLength:int = _model.productVector.length;
 			for(var i:int=0;i<classLength;i++) {
-				var loader:MURLLoader = new MURLLoader();
+				var loader:MLoader = new MLoader();
 				loader.owner = _model.productVector[i];
 				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function (event:flash.events.Event):void
 				{
-					((event.currentTarget.loader as MURLLoader).owner as ProductClassElementData).classImgData = event.currentTarget.loader.content as Bitmap;
+					((event.currentTarget.loader as MLoader).owner as ProductClassElementData).classImgData = event.currentTarget.loader.content as Bitmap;
 					loadFlag++
 					if(loadFlag == classLength) {
 						loadFlag = 0;
 						initUI();
+						loader.unload();
 					}
 				});
 				//"assets/images/Border.jpg"
@@ -71,7 +72,7 @@ package com.sanrenxing.tb.screens
 			const layout:HorizontalLayout = new HorizontalLayout();
 			layout.verticalAlign=HorizontalLayout.VERTICAL_ALIGN_MIDDLE;
 			layout.paddingLeft = 50;
-			layout.gap = 50;
+			layout.gap = 0;
 			
 			this._container = new ScrollContainer();
 			this._container.layout = layout;

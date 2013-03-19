@@ -2,7 +2,7 @@ package com.sanrenxing.tb.screens
 {
 	import com.sanrenxing.tb.components.ProductImage;
 	import com.sanrenxing.tb.models.ModelLocator;
-	import com.sanrenxing.tb.utils.MURLLoader;
+	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductClassElementData;
 	import com.sanrenxing.tb.vos.ProductElementData;
 	
@@ -80,15 +80,16 @@ package com.sanrenxing.tb.screens
 			
 			const length:int = data.productListVO.length;
 			for(var i:int=0;i<length;i++) {
-				var loader:MURLLoader = new MURLLoader();
+				var loader:MLoader = new MLoader();
 				loader.owner = data.productListVO[i];
 				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function (event:flash.events.Event):void
 				{
-					((event.currentTarget.loader as MURLLoader).owner as ProductElementData).productFrontImgData = event.currentTarget.loader.content as Bitmap;
+					((event.currentTarget.loader as MLoader).owner as ProductElementData).productFrontImgData = event.currentTarget.loader.content as Bitmap;
 					loadFlag++
 					if(loadFlag == length) {
 						loadFlag = 0;
 						initUI();
+						loader.unload();
 					}
 				});
 				//"assets/images/Border.jpg"

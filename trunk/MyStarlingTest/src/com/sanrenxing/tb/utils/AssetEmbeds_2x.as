@@ -4,8 +4,8 @@ package  com.sanrenxing.tb.utils
     {
         // Bitmaps
         
-        [Embed(source = "assets/images/products/Border.jpg")]
-        public static const class1:Class;
+//        [Embed(source = "assets/images/products/Border.jpg")]
+//        public static const class1:Class;
         
     }
 }
