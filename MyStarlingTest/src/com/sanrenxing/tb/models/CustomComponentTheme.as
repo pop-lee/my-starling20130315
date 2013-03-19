@@ -34,13 +34,20 @@ package com.sanrenxing.tb.models
 			super( root, scaleToDPI );
 		}
 		
+		override protected function initializeRoot():void
+		{
+			this.primaryBackgroundTexture = Assets.getTexture("MAIN_BG");
+			super.initializeRoot();
+		}
+		
 		override protected function initialize():void
 		{
 			super.initialize();
 			
 			// set new initializers here
+			
 			this.setInitializerForClass( Button, backButtonInitializer, BACK_BTN );
-			this.setInitializerForClass( ScrollContainer, mainBackgroundInitializer, MAIN_BACKGROUND );
+//			this.setInitializerForClass( ScrollContainer, mainBackgroundInitializer, MAIN_BACKGROUND );
 			this.setInitializerForClass( ScrollContainer, controlPaneBackgroundInitializer, CONTROL_PANE_BACKGROUND );
 			this.setInitializerForClass( ScrollContainer, colorPaneBackgroundInitializer, COLOR_PANE_BACKGROUND );
 			
@@ -89,5 +96,6 @@ package com.sanrenxing.tb.models
 		{
 			button.defaultSkin = new Image(Assets.getTexture(button.colorIcon));
 		}
+		
 	}
 }

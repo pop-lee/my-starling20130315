@@ -2,7 +2,7 @@ package com.sanrenxing.tb.screens
 {
 	import com.sanrenxing.tb.components.MMovieClip;
 	import com.sanrenxing.tb.models.ModelLocator;
-	import com.sanrenxing.tb.utils.MURLLoader;
+	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductColorElementData;
 	import com.sanrenxing.tb.vos.ProductElementData;
 	
@@ -10,9 +10,11 @@ package com.sanrenxing.tb.screens
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.net.URLRequest;
+	import flash.utils.getTimer;
 	
 	import feathers.controls.ScrollContainer;
 	
+	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.textures.Texture;
@@ -30,6 +32,13 @@ package com.sanrenxing.tb.screens
 		
 		private var loadFlag:int=0;
 		
+		private var _firX:int;
+		private var _firF:int;
+		private var _preX:int;  //捕捉上一阵的mouseX
+		private var _curX:int;  //捕捉当前帧的mouseX
+		private var _dir:int;  //代表滑动方向-1为向左,1为向右
+		private var _oldDir:int;
+		
 		public function ProductColorScreen()
 		{
 			super();
@@ -42,15 +51,16 @@ package com.sanrenxing.tb.screens
 			
 			const length:int = data.productColorImg.length;
 			for(var i:int=0;i<length;i++) {
-				var loader:MURLLoader = new MURLLoader();
+				var loader:MLoader = new MLoader();
 				loader.owner = data.productColorImg[i];
 				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function (event:flash.events.Event):void
 				{
-					((event.currentTarget.loader as MURLLoader).owner as ProductColorElementData).imgData = event.currentTarget.loader.content as Bitmap;
+					((event.currentTarget.loader as MLoader).owner as ProductColorElementData).imgData = event.currentTarget.loader.content as Bitmap;
 					loadFlag++
 					if(loadFlag == length) {
 						loadFlag = 0;
 						initUI();
+						loader.unload();
 					}
 				});
 				//"assets/images/Border.jpg"
@@ -58,13 +68,7 @@ package com.sanrenxing.tb.screens
 			}
 		}
 		
-		public function init():void
-		{
-			initData();
-			initUI();
-		}
-		
-		protected function initData():void
+		protected function initUI():void
 		{
 			data = _model.currentProduct;
 			
@@ -73,7 +77,8 @@ package com.sanrenxing.tb.screens
 			for(var i:int=0;i<length;i++) {
 				frames.push(Texture.fromBitmap(data.productColorImg[i].imgData));
 			}
-			_productColor = new MMovieClip(frames,0);
+			_productColor = new MMovieClip(frames,1);
+			_productColor.stop();
 			this.addChild(_productColor);
 			
 //			_colorPane = new ScrollContainer();
@@ -81,59 +86,59 @@ package com.sanrenxing.tb.screens
 			
 			this.addEventListener(TouchEvent.TOUCH,onTouchHandler);
 			
-		}
-		
-		protected function initUI():void
-		{
-			_productColor.x = this.width/2;
-			_productColor.y = this.height/2;
+			_productColor.x = (this.width-_productColor.width)/2;
+			_productColor.y = (this.height-_productColor.height)/2;
 			
-//			var _colorPaneLayout:VerticalLayout = new VerticalLayout();
-//			_colorPaneLayout.gap = 5;
-//			_colorPaneLayout.paddingTop = 5;
-//			_colorPane.layout = _colorPaneLayout;
-//			_colorPane.y = -_colorPane.height;
-//			
-//			var _colorPaneTween:Tween= new Tween(_colorPane,0.7,Transitions.EASE_OUT_BACK);
-//			_colorPaneTween.animate("y",0);
-//			Starling.juggler.add(_colorPaneTween);
 		}
 		
 		private function onTouchHandler(event:TouchEvent):void
 		{
-			var touches:Vector.<Touch> = event.getTouches(this);
+			var touches:Vector.<Touch> = event.getTouches(stage);
 			
-			trace(this.horizontalScrollPosition + "        " + this.verticalScrollPosition);
-			if(touches.length == 2) {
-				var touchA:Touch = touches[0];
-				var touchB:Touch = touches[1];
+			var len:int = touches.length;
+			
+			if(len == 0) return;
+			
+			var touch:Touch = touches[0];
+			if(len == 1) {
 				
-				var currentPosA:Point  = touchA.getLocation(parent);
-				var previousPosA:Point = touchA.getPreviousLocation(parent);
-				var currentPosB:Point  = touchB.getLocation(parent);
-				var previousPosB:Point = touchB.getPreviousLocation(parent);
-				
-				var currentVector:Point  = currentPosA.subtract(currentPosB);
-				var previousVector:Point = previousPosA.subtract(previousPosB);
-				
-				var sizeDiff:Number = currentVector.length / previousVector.length;
-				trace(sizeDiff);
-				
-//				if(sizeDiff>1) {
-//					if(_pictureGap>=_model.pictureMaxGap) return;
-//					_pictureGap+=20;
-//				} else {
-//					if(_pictureGap<=0) return;
-//					_pictureGap-=20;
-//				}
-//				
-//				var length:int = pictureVector.length;
-//				for(var i:int=0;i<length;i++) {
-//					pictureVector[i].x = pictureVector[0].x + _pictureGap*i;
-//					trace("pictureVector[i].initAngle   " +  pictureVector[i].initAngle + "_pictureGap/_model.pictureMaxGap   " + (_pictureGap/_model.pictureMaxGap));
+				var pos:Point = touch.getLocation(this);
+				if(touch.phase == "began") {
+					_firX = _curX = _preX = pos.x;
+					_firF = _productColor.currentFrame;
+				} else if(touch.phase == "moved") { 
+					_preX = _curX;
+					_curX = touch.getLocation(stage).x;
+					
+					_dir = (_curX>_preX)?-1:1;
+					if(_oldDir != _dir) {
+						_oldDir = _dir;
+						_firX = _curX = _preX = pos.x;
+						_firF = _productColor.currentFrame;
+					}
+					
+					var _f:int = _firF + ((_curX-_firX)/100%_productColor.numFrames);
+					trace(_f + "    " + _firF + "      "  + ((_curX-_firX)/100%_productColor.numFrames));
+					if(_f<0) {
+						_f = _f%_productColor.numFrames+_productColor.numFrames;
+					} else if(_f>0) {
+						_f = _f%_productColor.numFrames;
+					}
+					trace(_f);
+					_productColor.currentFrame = _f;
+					
+//					var oldReverseFlag:Boolean = _productColor.isReverse;
+//					if(_productColor.isReverse!=oldReverseFlag) {
+//						_firF = _productColor.currentFrame;
+//						_firX = _preX;
+//					}
 //					
-//					pictureVector[i].angle = pictureVector[i].initAngle*(1-(_pictureGap/_model.pictureMaxGap));
-//				}
+//					var curF:int = (_firF + (Math.ceil(Math.abs(_curX-_firX))/100))%_productColor.numFrames;
+//					if(curF!=0) {
+//						_productColor.currentFrame = curF;
+//						trace(_productColor.isReverse + "   " + _firF + "    "  + curF);
+//					}
+				}
 			}
 		}
 		

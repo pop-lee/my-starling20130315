@@ -44,17 +44,24 @@ package com.sanrenxing.tb.components
 			var len:int = touches.length;
 			
 			if(len == 1) {
-				if(_isGestureFlag == 2 || _isGestureFlag == 3) return;
+				trace("is touchIng??");
+				trace(_isGestureFlag + "  _isGestureFlag");
+				if(_isGestureFlag == 2 || _isGestureFlag == 3) {
+					_isGestureFlag = 0;
+					return;
+				}
 				
 				var touch:Touch = touches[0];
 				
 				var pos:Point = touch.getLocation(this);
+				
 				if(touch.phase == "began") {
 					firX = pos.x;
 					firY = pos.y;
 				} else if(touch.phase == "moved") { 
 					if(_isGestureFlag == 1) return;
 					
+					trace(pos.y + "   " + firY);
 					if(pos.y - firY>20) {
 						this.dispatchEvent(new GestureEvent(0,1));
 						_isGestureFlag = 1;
@@ -74,7 +81,7 @@ package com.sanrenxing.tb.components
 			}
 			
 			for(var i:int=0;i<len;i++) {
-				if(touches[i].phase != "ended") {
+				if(touches[i].phase != "ended" && touches[i].phase != "hover") {
 					return;
 				}
 			}

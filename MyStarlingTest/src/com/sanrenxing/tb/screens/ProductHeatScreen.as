@@ -3,10 +3,14 @@ package com.sanrenxing.tb.screens
 	import com.sanrenxing.tb.components.MMovieClip;
 	import com.sanrenxing.tb.events.GestureEvent;
 	import com.sanrenxing.tb.models.ModelLocator;
-	import com.sanrenxing.tb.utils.Assets;
+	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductElementData;
+	import com.sanrenxing.tb.vos.ProductHeatElementData;
 	
+	import flash.display.Bitmap;
+	import flash.events.Event;
 	import flash.geom.Point;
+	import flash.net.URLRequest;
 	import flash.utils.getTimer;
 	
 	import feathers.controls.ScrollContainer;
@@ -34,6 +38,8 @@ package com.sanrenxing.tb.screens
 		private var _preT:int;  //捕捉上一阵的mouseX
 		private var _curT:int;  //捕捉当前帧的mouseX
 		
+		private var loadFlag:int=0;
+		
 		/**
 		 * 当前交互是否为移动
 		 */
@@ -42,18 +48,30 @@ package com.sanrenxing.tb.screens
 		public function ProductHeatScreen()
 		{
 			super();
+			
+			loadData();
 		}
 		
-		public function init():void
-		{
-			initData();
-			initUI();
-		}
-		
-		protected function initData():void
-		{
+		private function loadData():void {
 			data = _model.currentProduct;
 			
+			const length:int = data.productHeatImg.length;
+			for(var i:int=0;i<length;i++) {
+				var loader:MLoader = new MLoader();
+				loader.owner = data.productHeatImg[i];
+				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function (event:flash.events.Event):void
+				{
+					((event.currentTarget.loader as MLoader).owner as ProductHeatElementData).imgData = event.currentTarget.loader.content as Bitmap;
+					loadFlag++
+					if(loadFlag == length) {
+						loadFlag = 0;
+						initUI();
+						loader.unload();
+					}
+				});
+				//"assets/images/Border.jpg"
+				loader.load(new URLRequest(data.productHeatImg[i].imgUrl));
+			}
 		}
 		
 		protected function initUI():void
@@ -61,8 +79,9 @@ package com.sanrenxing.tb.screens
 			_container = new ScrollContainer();
 			
 			var frames:Vector.<Texture> = new Vector.<Texture>();
-			for(var i:int=0;i<16;i++) {
-				frames.push(Assets.getTexture("AROUND_"+(i+1)));
+			var length:int = data.productHeatImg.length;
+			for(var i:int=0;i<length;i++) {
+				frames.push(Texture.fromBitmap(data.productHeatImg[i].imgData));
 			}
 			productMovie = new MMovieClip(frames, 4);
 			productMovie.x = (this.width - productMovie.width)/2;
@@ -137,21 +156,10 @@ package com.sanrenxing.tb.screens
 		private function onGestureHandler(event:GestureEvent):void
 		{
 			if(event.offsetY == -1) {
-				this.dispatchEvent(new Event("toProductColorScreen"));
+				this.dispatchEvent(new starling.events.Event("toProductColorScreen"));
 			} else if(event.offsetY == 1) {
-				this.dispatchEvent(new Event("toProductShowScreen"));
+				this.dispatchEvent(new starling.events.Event("toProductShowScreen"));
 			}
-		}
-		
-		private function movieEnterFrameHandler(event:Event):void
-		{
-			var elapsedTime:Number = (_curT - _preT) / 1000;
-			var xVelocity:Number = (_curX - _preX) / elapsedTime;
-			trace(_curX + "  " + _preX + "  " + elapsedTime);
-			trace(xVelocity);
-			
-//			productMovie.isReverse = !productMovie.isReverse;
-//			productMovie.fps ++;
 		}
 		
 	}

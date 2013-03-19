@@ -21,7 +21,7 @@ package com.sanrenxing.tb.services
 		{
 			var service:RemoteObject=new RemoteObject();
 			service.destination=destination;
-			service.endpoint = "http://192.168.1.108:8080/MobileBlazeDSDemo/messagebroker/amf";
+			service.endpoint = "http://192.168.1.106:8080/MobileBlazeDSDemo/messagebroker/amf";
 			return service;
 		}
 		
