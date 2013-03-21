@@ -24,9 +24,9 @@ package com.sanrenxing.tb.components
 			super();
 			this.data = data;
 			
-			_label = new TextField(300,30,data.className);
-			_label.x = -100;//_label.height;
-			addChild(_label);
+//			_label = new TextField(300,30,data.className);
+//			_label.x = -100;//_label.height;
+//			addChild(_label);
 			
 			_image = new Image(Texture.fromBitmap(data.classImgData));
 			addChild(_image);

@@ -72,7 +72,8 @@ package com.sanrenxing.tb.screens
 			const layout:HorizontalLayout = new HorizontalLayout();
 			layout.verticalAlign=HorizontalLayout.VERTICAL_ALIGN_MIDDLE;
 			layout.paddingLeft = 50;
-			layout.gap = 0;
+			layout.paddingRight = 50;
+			layout.gap = 20;
 			
 			this._container = new ScrollContainer();
 			this._container.layout = layout;
@@ -103,6 +104,7 @@ package com.sanrenxing.tb.screens
 		{ 
 			// get the mouse location related to the stage 
 			var touch:Touch = e.getTouch(stage); 
+			if(touch==null) return;
 			var pos:Point = touch.getLocation(stage); 
 //			var classBtn:ProductClassBox = e.currentTarget as ProductClassBox;
 			

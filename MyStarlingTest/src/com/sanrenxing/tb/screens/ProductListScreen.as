@@ -2,6 +2,7 @@ package com.sanrenxing.tb.screens
 {
 	import com.sanrenxing.tb.components.ProductImage;
 	import com.sanrenxing.tb.models.ModelLocator;
+	import com.sanrenxing.tb.models.UIModel;
 	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductClassElementData;
 	import com.sanrenxing.tb.vos.ProductElementData;
@@ -99,6 +100,8 @@ package com.sanrenxing.tb.screens
 		
 		private function initUI():void
 		{
+			UIModel.showLeftPane();
+			
 			this._container = new ScrollContainer();
 			this._container.scrollerProperties.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 			this._container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;

@@ -2,12 +2,17 @@ package
 {
 	import com.sanrenxing.tb.models.ModelLocator;
 	import com.sanrenxing.tb.services.AppService;
+	import com.sanrenxing.tb.utils.Properties;
 	import com.sanrenxing.tb.vos.ProductClassElementData;
 	import com.sanrenxing.tb.vos.ProductColorElementData;
+	import com.sanrenxing.tb.vos.ProductDBData;
 	import com.sanrenxing.tb.vos.ProductElementData;
 	import com.sanrenxing.tb.vos.ProductHeatElementData;
 	import com.sanrenxing.tb.vos.ProductPictureElementData;
 	
+	import flash.data.SQLConnection;
+	import flash.data.SQLResult;
+	import flash.data.SQLStatement;
 	import flash.display.Bitmap;
 	import flash.display.Loader;
 	import flash.display.Sprite;
@@ -15,6 +20,7 @@ package
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.events.RemoteNotificationEvent;
+	import flash.filesystem.File;
 	import flash.geom.Rectangle;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
@@ -57,6 +63,17 @@ package
 		
 		private function initData():void
 		{
+			//create sqlite database
+			var sqlConnection:SQLConnection = new SQLConnection();
+			sqlConnection.open(_model.DATABASE_FILE);
+			
+			var createTable:SQLStatement = new SQLStatement();
+			createTable.sqlConnection = sqlConnection;
+			createTable.text = Properties.CREATE_FAV_PRODUCT_SQL;
+			createTable.execute();
+			sqlConnection.close();
+			
+			//add pushNotification listener
 			var subscribeOptions:RemoteNotifierSubscribeOptions = new RemoteNotifierSubscribeOptions();
 			var preferredStyles:Vector.<String> = new Vector.<String>();
 			preferredStyles.push(NotificationStyle.ALERT ,NotificationStyle.BADGE,NotificationStyle.SOUND );
@@ -65,7 +82,9 @@ package
 			_model.remoteNotifier.addEventListener(RemoteNotificationEvent.NOTIFICATION,remoteNotificationHandler);
 			_model.remoteNotifier.subscribe(subscribeOptions);
 			
+			//register Class
 			RpcClassAliasInitializer.registerClassAliases();
+			
 			
 			var loader:URLLoader = new URLLoader();
 			loader.addEventListener(Event.COMPLETE,function loadDataHandler(event:flash.events.Event):void
@@ -144,7 +163,7 @@ package
 			mStarling.start();
 			
 			_model.screenWidth = this.stage.stageWidth;
-//			_model.screenHeight = this.height;
+			_model.screenHeight = this.stage.stageHeight;
 			_model.productWidth = 480;
 			_model.pictureMaxGap = 520;
 //			_model.productHeight = 320;
@@ -164,7 +183,7 @@ package
 		private function stage_resizeHandler(event:Event):void
 		{
 			_model.screenWidth = this.stage.stageWidth;
-			//			_model.screenHeight = this.height;
+			_model.screenHeight = this.stage.stageHeight;
 			_model.productWidth = 480;
 			_model.pictureMaxGap = 520;
 			//			_model.productHeight = 320;
@@ -204,7 +223,29 @@ package
 					(new AppService()).addRegistUser();
 				}
 			} else {
+				var productDBData:ProductDBData = new ProductDBData();
+				productDBData.productName = e.data["productName"];
+				productDBData.currentLowestPrice = e.data["currentLowestPrice"];
+				productDBData.activityEndDate = e.data["activityEndDate"];
+				productDBData.tbUrl = e.data["tbUrl"];
 				
+				var sqlConnection:SQLConnection = new SQLConnection();
+				sqlConnection.open(_model.DATABASE_FILE);
+				var insertTable:SQLStatement = new SQLStatement();
+				insertTable.sqlConnection = sqlConnection;
+				
+				insertTable.text = Properties.INSERT_FAV_PRODUCT_SQL;
+				insertTable.parameters[":product_id"] =1;
+				insertTable.parameters[":product_obj"] = productDBData;
+				insertTable.parameters[":is_read"] = false;
+				insertTable.execute();
+				
+				var selectTable:SQLStatement = new SQLStatement();
+				selectTable.sqlConnection = sqlConnection;
+				selectTable.text = Properties.SELECT_FAV_PRODUCT_SQL;
+				selectTable.execute();
+				var sqlResult:SQLResult = selectTable.getResult();
+				var entries:Array = sqlResult.data;
 			}
 			
 		}

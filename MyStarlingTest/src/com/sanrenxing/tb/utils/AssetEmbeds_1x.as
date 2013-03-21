@@ -46,6 +46,10 @@ package com.sanrenxing.tb.utils
 		public static const BACK_BTN_DOWN:Class;
 		[Embed(source = "assets/images/theme1/back_btn_up.png")]
 		public static const BACK_BTN_UP:Class;
+		[Embed(source = "assets/images/theme1/exp_left_pane_btn.png")]
+		public static const EXP_LEFT_PANE_BTN:Class;
+		[Embed(source = "assets/images/theme1/close_left_pane_btn.png")]
+		public static const CLOSE_LEFT_PANE_BTN:Class;
 		[Embed(source = "assets/images/theme1/close_btn_down.png")]
 		public static const CLOSE_BTN_DOWN:Class;
 		[Embed(source = "assets/images/theme1/close_btn_up.png")]

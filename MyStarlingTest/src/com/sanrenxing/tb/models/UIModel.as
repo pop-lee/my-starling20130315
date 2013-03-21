@@ -1,5 +1,12 @@
 package com.sanrenxing.tb.models
 {
+	import feathers.controls.Button;
+	import feathers.controls.ScrollContainer;
+	
+	import starling.animation.Tween;
+	import starling.core.Starling;
+	import starling.display.Stage;
+
 	public class UIModel extends DataModel
 	{
 		public var currentTheme:MetalWorksMobileTheme;
@@ -13,15 +20,15 @@ package com.sanrenxing.tb.models
 		
 		
 		
-		
+		public var stage:Stage;
 		/**
 		 * 设备屏幕尺寸宽度
 		 */
 		public var screenWidth:int;
-//		/**
-//		 * 设备屏幕尺寸高度
-//		 */
-//		public var screenHeight:int;
+		/**
+		 * 设备屏幕尺寸高度
+		 */
+		public var screenHeight:int;
 //		
 		/**
 		 * 商品展示的原宽度
@@ -59,9 +66,65 @@ package com.sanrenxing.tb.models
 		 * 图片之间最大间距
 		 */
 		public var pictureMaxGap:int;
+		/**
+		 * 返回按钮
+		 */
+		public var backBtn:Button;
+		/**
+		 * 侧边面板
+		 */
+		public var leftPane:ScrollContainer;
+		/**
+		 * 展开收缩侧边面板按钮
+		 */
+		public var expLeftPaneBtn:Button;
+		
+		public var leftPaneIsOpen:Boolean=false;
 		
 		public function UIModel()
 		{
 		}
+		
+		public static function showLeftPane():void
+		{
+			var _model:ModelLocator = ModelLocator.getInstance();
+			var moveControlPaneTween:Tween = new Tween(_model.leftPane,0.5);
+			moveControlPaneTween.animate("x",-200);
+			Starling.juggler.add(moveControlPaneTween);
+			
+			_model.backBtn.x = -50;
+			var moveBackBtnTween:Tween = new Tween(_model.backBtn,0.5);
+			moveBackBtnTween.animate("x",0);
+//			Starling.juggler.add(moveBackBtnTween);
+			Starling.juggler.delayCall(Starling.juggler.add,0.2,moveBackBtnTween);
+			
+			_model.expLeftPaneBtn.x = 150;
+			var moveExpBtnTween:Tween = new Tween(_model.expLeftPaneBtn,0.5);
+			moveExpBtnTween.animate("x",200);
+			Starling.juggler.delayCall(Starling.juggler.add,0.4,moveExpBtnTween);
+		}
+		public static function hideLeftPane():void
+		{
+			var _model:ModelLocator = ModelLocator.getInstance();
+			var moveControlPaneTween:Tween = new Tween(_model.leftPane,0.5);
+			moveControlPaneTween.animate("x",-250);
+			Starling.juggler.add(moveControlPaneTween);
+		}
+		
+		public static function expLeftPane():void
+		{
+			var _model:ModelLocator = ModelLocator.getInstance();
+			var moveControlPaneTween:Tween = new Tween(_model.leftPane,0.5);
+			moveControlPaneTween.animate("x",0);
+			Starling.juggler.add(moveControlPaneTween);
+		}
+		public static function closeLeftPane():void
+		{
+			var _model:ModelLocator = ModelLocator.getInstance();
+			var moveControlPaneTween:Tween = new Tween(_model.leftPane,0.5);
+			moveControlPaneTween.animate("x",-200);
+			Starling.juggler.add(moveControlPaneTween);
+		}
+		
 	}
 }
