@@ -78,7 +78,7 @@ package com.sanrenxing.tb.screens
 				picture.x = this.actualWidth/2;
 				picture.y = this.actualHeight/2;
 				pictureVector.push(picture);
-				this.addChild(picture);
+				this.addChildAt(picture,0);
 			}
 			
 			this.addEventListener(TouchEvent.TOUCH,onTouchHandler);

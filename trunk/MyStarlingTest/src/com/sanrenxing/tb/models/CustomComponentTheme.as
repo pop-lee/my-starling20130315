@@ -22,6 +22,7 @@ package com.sanrenxing.tb.models
 		
 		public static const MAIN_BACKGROUND:String = "mainBackGround";
 		public static const BACK_BTN:String = "backBtn";
+		public static const EXP_LEFT_PANE_BTN:String = "expLeftPaneBtn";
 		public static const CONTROL_PANE_BACKGROUND:String = "controlPaneBackground";
 		public static const ATTENTION_BTN:String = "attentionBtn";
 		public static const COLOR_PANE_BACKGROUND:String = "colorPaneBackground";
@@ -47,6 +48,7 @@ package com.sanrenxing.tb.models
 			// set new initializers here
 			
 			this.setInitializerForClass( Button, backButtonInitializer, BACK_BTN );
+			this.setInitializerForClass( Button, expLeftPaneBtnInitializer,EXP_LEFT_PANE_BTN);
 //			this.setInitializerForClass( ScrollContainer, mainBackgroundInitializer, MAIN_BACKGROUND );
 			this.setInitializerForClass( ScrollContainer, controlPaneBackgroundInitializer, CONTROL_PANE_BACKGROUND );
 			this.setInitializerForClass( ScrollContainer, colorPaneBackgroundInitializer, COLOR_PANE_BACKGROUND );
@@ -67,8 +69,14 @@ package com.sanrenxing.tb.models
 //					textureScale: this.scale
 //				};
 //			button.stateToSkinFunction = skinSelector.updateValue;
-			button.defaultSkin = new Image(this.buttonDisabledSkinTextures.texture);
-			button.downSkin = new Image(this.buttonUpSkinTextures.texture);
+			button.defaultSkin = new Image(Assets.getTexture("BACK_BTN_UP"));
+			button.downSkin = new Image(Assets.getTexture("BACK_BTN_DOWN"));
+		}
+		
+		public function expLeftPaneBtnInitializer(button:Button):void
+		{
+			button.defaultSkin = new Image(Assets.getTexture("EXP_LEFT_PANE_BTN"));
+//			button.downSkin = new Image(Assets.getTexture("CLOSE_LEFT_PANE_BTN"));
 		}
 		
 		public function mainBackgroundInitializer(container:ScrollContainer):void
