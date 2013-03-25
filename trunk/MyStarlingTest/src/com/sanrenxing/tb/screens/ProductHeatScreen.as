@@ -1,5 +1,6 @@
 package com.sanrenxing.tb.screens
 {
+	import com.sanrenxing.tb.components.ProductDetailChildContainer;
 	import com.sanrenxing.tb.components.MMovieClip;
 	import com.sanrenxing.tb.events.GestureEvent;
 	import com.sanrenxing.tb.models.ModelLocator;
@@ -21,7 +22,7 @@ package com.sanrenxing.tb.screens
 	import starling.events.TouchEvent;
 	import starling.textures.Texture;
 	
-	public class ProductHeatScreen extends ScrollContainer
+	public class ProductHeatScreen extends ProductDetailChildContainer
 	{
 		private var data:ProductElementData;
 		
@@ -48,7 +49,11 @@ package com.sanrenxing.tb.screens
 		public function ProductHeatScreen()
 		{
 			super();
-			
+		}
+		
+		override public function init():void
+		{
+			super.init();
 			loadData();
 		}
 		
@@ -59,13 +64,14 @@ package com.sanrenxing.tb.screens
 			for(var i:int=0;i<length;i++) {
 				var loader:MLoader = new MLoader();
 				loader.owner = data.productHeatImg[i];
-				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function (event:flash.events.Event):void
+				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function loadCompleteHandler(event:flash.events.Event):void
 				{
 					((event.currentTarget.loader as MLoader).owner as ProductHeatElementData).imgData = event.currentTarget.loader.content as Bitmap;
 					loadFlag++
 					if(loadFlag == length) {
 						loadFlag = 0;
-						initUI();
+//						initUI();
+						loader.contentLoaderInfo.removeEventListener(flash.events.Event.COMPLETE,loadCompleteHandler);
 						loader.unload();
 					}
 				});
@@ -100,6 +106,8 @@ package com.sanrenxing.tb.screens
 		
 		private function onTouch(event:TouchEvent):void
 		{
+			if(this.parentContainer.isScrolling) return;
+			
 			var touches:Vector.<Touch> = event.getTouches(stage);
 			
 			var len:int = touches.length;

@@ -127,7 +127,7 @@ package com.sanrenxing.tb.screens
 			
 			_colorScreen.width = this.actualWidth;
 			_colorScreen.height = this.actualHeight;
-//			_colorScreen.init();
+			_colorScreen.init();
 			_heatScreen.width = this.actualWidth;
 			_heatScreen.height = this.actualHeight;
 //			_heatScreen.init();
@@ -162,15 +162,14 @@ package com.sanrenxing.tb.screens
 				if(_curScreenIndex==_screenVector.length-1) {
 					return;
 				}
-				trace(_container.verticalPageIndex);
-//				this._container.verticalScrollPosition = _heatScreen.y;
-				_container.scrollToPageIndex(0,++_curScreenIndex,1);
-				trace(_container.verticalPageIndex);
+//				_container.scrollToPageIndex(0,++_curScreenIndex,1);
+//				(_container.getChildAt(_curScreenIndex) as LazyLoadContainer).init();
 			} else if(event.offsetY == 1) {
 				if(_curScreenIndex==0) {
 					return;
 				}
-				_container.scrollToPageIndex(0,--_curScreenIndex,1);
+//				_container.scrollToPageIndex(0,--_curScreenIndex,1);
+//				(_container.getChildAt(_curScreenIndex) as LazyLoadContainer).init();
 			}
 		}
 		

@@ -2,6 +2,9 @@ package com.sanrenxing.tb.utils
 {
     public class AssetEmbeds_1x
     {
+		[Embed(source = "assets/images/theme1/root_logo.png")]
+		public static const ROOT_LOGO:Class;
+		
         // Bitmaps
 //		[Embed(source = "assets/images/products/Border.jpg")]
 //		public static const class1:Class;
@@ -66,6 +69,8 @@ package com.sanrenxing.tb.utils
 		public static const MAIN_BG:Class;
 		[Embed(source = "assets/images/theme1/pic_bg.png")]
 		public static const PIC_BG:Class;
+		[Embed(source = "assets/images/theme1/t.png")]
+		public static const T:Class;
 		
 		//--------------------------------------
 //		[Embed(source = "assets/images/shoes/360/1.png")]

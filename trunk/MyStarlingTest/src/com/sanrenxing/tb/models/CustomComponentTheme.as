@@ -1,6 +1,7 @@
 package com.sanrenxing.tb.models
 {
 	import com.sanrenxing.tb.components.ColorButton;
+	import com.sanrenxing.tb.components.UserAttenctionBox;
 	import com.sanrenxing.tb.utils.Assets;
 	
 	import flash.geom.Rectangle;
@@ -47,6 +48,7 @@ package com.sanrenxing.tb.models
 			
 			// set new initializers here
 			
+			this.setInitializerForClass(UserAttenctionBox, buttonInitializer);
 			this.setInitializerForClass( Button, backButtonInitializer, BACK_BTN );
 			this.setInitializerForClass( Button, expLeftPaneBtnInitializer,EXP_LEFT_PANE_BTN);
 //			this.setInitializerForClass( ScrollContainer, mainBackgroundInitializer, MAIN_BACKGROUND );

@@ -5,7 +5,11 @@ package com.sanrenxing.tb.components
 	import flash.geom.Point;
 	
 	import feathers.controls.ScrollContainer;
+	import feathers.controls.Scroller;
+	import feathers.events.FeathersEventType;
 	
+	import starling.display.DisplayObject;
+	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	
@@ -25,9 +29,20 @@ package com.sanrenxing.tb.components
 		 */
 		private var _isGestureFlag:int = 0;
 		
+		public var isScrolling:Boolean = false;
+		
 		public function set isGestureFlag(value:int):void
 		{
 			_isGestureFlag = value;
+		}
+		
+		override public function addChildAt(child:DisplayObject, index:int):DisplayObject
+		{
+			if(!(child is ProductDetailChildContainer)) {
+				throw new Error("this child is not a ProductDetailChildContainer");
+			}
+			(child as ProductDetailChildContainer).parentContainer = this;
+			return super.addChildAt(child,index);
 		}
 		
 		public function ProductDetailContainer()
@@ -35,6 +50,8 @@ package com.sanrenxing.tb.components
 			super();
 			
 			this.addEventListener(TouchEvent.TOUCH,onTouchHandler);
+			this.addEventListener(Event.SCROLL,onScrollHandler);
+			this.addEventListener(FeathersEventType.SCROLL_COMPLETE,onScrollCompleteHandler);
 		}
 		
 		private function onTouchHandler(event:TouchEvent):void
@@ -48,6 +65,7 @@ package com.sanrenxing.tb.components
 				trace(_isGestureFlag + "  _isGestureFlag");
 				if(_isGestureFlag == 2 || _isGestureFlag == 3) {
 					_isGestureFlag = 0;
+					this.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 					return;
 				}
 				
@@ -63,9 +81,11 @@ package com.sanrenxing.tb.components
 					
 					trace(pos.y + "   " + firY);
 					if(pos.y - firY>20) {
+						this.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_ON;
 						this.dispatchEvent(new GestureEvent(0,1));
 						_isGestureFlag = 1;
 					} else if(firY - pos.y>20) {
+						this.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_ON;
 						this.dispatchEvent(new GestureEvent(0,-1));
 						_isGestureFlag = 1;
 					} else if(pos.x - firX>20) {
@@ -86,6 +106,7 @@ package com.sanrenxing.tb.components
 				}
 			}
 			_isGestureFlag = 0;
+			this.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 			
 //			trace("touch.globalX   " + touch.globalX + "     touch.globalY   " + touch.globalY);
 //			trace("touch.pressure   " + touch.pressure);
@@ -94,6 +115,22 @@ package com.sanrenxing.tb.components
 //			trace("touch.timestamp   " + touch.timestamp);
 //			trace("touch.width   " + touch.width);
 //			trace("----------------------");
+		}
+		
+		private function onScrollHandler(event:Event):void
+		{
+			trace("isScrolling");
+			if(_isGestureFlag == 1) {
+				isScrolling = true;
+			} else if(_isGestureFlag == 0) {
+				isScrolling = false;
+			}
+		}
+		
+		private function onScrollCompleteHandler(event:Event):void
+		{
+			isScrolling = false;
+			trace("isScrollComplete");
 		}
 		
 	}

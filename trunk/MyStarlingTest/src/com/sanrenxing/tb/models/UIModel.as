@@ -1,5 +1,8 @@
 package com.sanrenxing.tb.models
 {
+	import flash.display.Bitmap;
+	import flash.display.Stage;
+	
 	import feathers.controls.Button;
 	import feathers.controls.ScrollContainer;
 	
@@ -9,6 +12,8 @@ package com.sanrenxing.tb.models
 
 	public class UIModel extends DataModel
 	{
+		public var logo:Bitmap;
+		
 		public var currentTheme:MetalWorksMobileTheme;
 		
 		public const PRODUCT_CLASS_SCREEN:String = "productClassScreen";
@@ -18,9 +23,9 @@ package com.sanrenxing.tb.models
 		public const PRODUCT_HEAT_SCREEN:String = "productHeatScreen";
 		public const PRODUCT_SHOW_SCREEN:String = "productShowScreen";
 		
+		public var stage:flash.display.Stage;
 		
-		
-		public var stage:Stage;
+		public var starling:starling.display.Stage;
 		/**
 		 * 设备屏幕尺寸宽度
 		 */
