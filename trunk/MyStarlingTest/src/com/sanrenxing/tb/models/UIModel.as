@@ -4,6 +4,7 @@ package com.sanrenxing.tb.models
 	import flash.display.Stage;
 	
 	import feathers.controls.Button;
+	import feathers.controls.ScreenNavigator;
 	import feathers.controls.ScrollContainer;
 	
 	import starling.animation.Tween;
@@ -78,7 +79,7 @@ package com.sanrenxing.tb.models
 		/**
 		 * 侧边面板
 		 */
-		public var leftPane:ScrollContainer;
+		public var topPane:ScrollContainer;
 		/**
 		 * 展开收缩侧边面板按钮
 		 */
@@ -90,46 +91,48 @@ package com.sanrenxing.tb.models
 		{
 		}
 		
-		public static function showLeftPane():void
+		public static function showTopPane():void
 		{
 			var _model:ModelLocator = ModelLocator.getInstance();
-			var moveControlPaneTween:Tween = new Tween(_model.leftPane,0.5);
-			moveControlPaneTween.animate("x",-200);
+//			_model.topPane.y = 0;
+			var moveControlPaneTween:Tween = new Tween(_model.topPane,0.5);
+			moveControlPaneTween.animate("y",0);
 			Starling.juggler.add(moveControlPaneTween);
-			
-			_model.backBtn.x = -50;
-			var moveBackBtnTween:Tween = new Tween(_model.backBtn,0.5);
-			moveBackBtnTween.animate("x",0);
-//			Starling.juggler.add(moveBackBtnTween);
-			Starling.juggler.delayCall(Starling.juggler.add,0.2,moveBackBtnTween);
-			
-			_model.expLeftPaneBtn.x = 150;
-			var moveExpBtnTween:Tween = new Tween(_model.expLeftPaneBtn,0.5);
-			moveExpBtnTween.animate("x",200);
-			Starling.juggler.delayCall(Starling.juggler.add,0.4,moveExpBtnTween);
+//			
+//			_model.backBtn.x = -50;
+//			var moveBackBtnTween:Tween = new Tween(_model.backBtn,0.5);
+//			moveBackBtnTween.animate("x",0);
+////			Starling.juggler.add(moveBackBtnTween);
+//			Starling.juggler.delayCall(Starling.juggler.add,0.2,moveBackBtnTween);
+//			
+//			_model.expLeftPaneBtn.x = 150;
+//			var moveExpBtnTween:Tween = new Tween(_model.expLeftPaneBtn,0.5);
+//			moveExpBtnTween.animate("x",200);
+//			Starling.juggler.delayCall(Starling.juggler.add,0.4,moveExpBtnTween);
 		}
-		public static function hideLeftPane():void
+		public static function hideTopPane():void
 		{
 			var _model:ModelLocator = ModelLocator.getInstance();
-			var moveControlPaneTween:Tween = new Tween(_model.leftPane,0.5);
-			moveControlPaneTween.animate("x",-250);
+//			_model.topPane.y = -60;
+			var moveControlPaneTween:Tween = new Tween(_model.topPane,0.5);
+			moveControlPaneTween.animate("y",-60);
 			Starling.juggler.add(moveControlPaneTween);
 		}
 		
-		public static function expLeftPane():void
-		{
-			var _model:ModelLocator = ModelLocator.getInstance();
-			var moveControlPaneTween:Tween = new Tween(_model.leftPane,0.5);
-			moveControlPaneTween.animate("x",0);
-			Starling.juggler.add(moveControlPaneTween);
-		}
-		public static function closeLeftPane():void
-		{
-			var _model:ModelLocator = ModelLocator.getInstance();
-			var moveControlPaneTween:Tween = new Tween(_model.leftPane,0.5);
-			moveControlPaneTween.animate("x",-200);
-			Starling.juggler.add(moveControlPaneTween);
-		}
+//		public static function expLeftPane():void
+//		{
+//			var _model:ModelLocator = ModelLocator.getInstance();
+//			var moveControlPaneTween:Tween = new Tween(_model.leftPane,0.5);
+//			moveControlPaneTween.animate("x",0);
+//			Starling.juggler.add(moveControlPaneTween);
+//		}
+//		public static function closeLeftPane():void
+//		{
+//			var _model:ModelLocator = ModelLocator.getInstance();
+//			var moveControlPaneTween:Tween = new Tween(_model.leftPane,0.5);
+//			moveControlPaneTween.animate("x",-200);
+//			Starling.juggler.add(moveControlPaneTween);
+//		}
 		
 	}
 }

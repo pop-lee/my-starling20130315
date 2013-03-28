@@ -72,6 +72,23 @@ package com.sanrenxing.tb.utils
 		[Embed(source = "assets/images/theme1/t.png")]
 		public static const T:Class;
 		
+		[Embed(source = "assets/images/theme1/class_bg.png")]
+		public static const CLASS_BG:Class;
+		[Embed(source = "assets/images/products/classbox_bg.png")]
+		public static const CLASSBOX_BG:Class;
+		[Embed(source = "assets/images/products/highLight.png")]
+		public static const HIGHLIGHT:Class;
+		[Embed(source = "assets/images/theme1/list_bg.png")]
+		public static const LIST_BG:Class;
+		[Embed(source = "assets/images/theme1/color_bg.png")]
+		public static const COLOR_BG:Class;
+		[Embed(source = "assets/images/theme1/around_bg.png")]
+		public static const AROUND_BG:Class;
+		[Embed(source = "assets/images/theme1/picture_bg.png")]
+		public static const PICTURE_BG:Class;
+		[Embed(source = "assets/images/theme1/top_bg.png")]
+		public static const TOP_BG:Class;
+		
 		//--------------------------------------
 //		[Embed(source = "assets/images/shoes/360/1.png")]
 //		public static const AROUND_1:Class;

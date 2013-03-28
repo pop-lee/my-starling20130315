@@ -3,6 +3,7 @@ package com.sanrenxing.tb.screens
 	import com.sanrenxing.tb.components.ProductImage;
 	import com.sanrenxing.tb.models.ModelLocator;
 	import com.sanrenxing.tb.models.UIModel;
+	import com.sanrenxing.tb.utils.Assets;
 	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductClassElementData;
 	import com.sanrenxing.tb.vos.ProductElementData;
@@ -19,6 +20,7 @@ package com.sanrenxing.tb.screens
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
+	import starling.display.Image;
 	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -100,11 +102,12 @@ package com.sanrenxing.tb.screens
 		
 		private function initUI():void
 		{
-			UIModel.showLeftPane();
+			UIModel.showTopPane();
 			
 			this._container = new ScrollContainer();
 			this._container.scrollerProperties.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 			this._container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
+			this._container.backgroundSkin = new Image(Assets.getTexture("LIST_BG"));
 			this.addChild(this._container);
 			
 			const showProductLength:int = Math.min(_model.showCount4Stage,data.productListVO.length);
@@ -152,6 +155,8 @@ package com.sanrenxing.tb.screens
 					_container.addEventListener(TouchEvent.TOUCH, onTouch); 
 				}
 			}
+			
+			_model.starling.addEventListener("backEvent",backHandler);
 		}
 		
 //		private function ScrollPolicyHandler(event:Event):void
@@ -451,6 +456,12 @@ package com.sanrenxing.tb.screens
 		{
 			_model.currentProduct = _protuctsArr[_focusProductIndex].data;
 			this.dispatchEvent(new starling.events.Event("toProductDetail"));
+		}
+		
+		private function backHandler(event:starling.events.Event):void
+		{
+			this.dispatchEvent(new starling.events.Event("toProductClass"));
+			UIModel.hideTopPane();
 		}
 	}
 }

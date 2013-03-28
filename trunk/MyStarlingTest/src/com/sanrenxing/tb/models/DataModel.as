@@ -11,7 +11,7 @@ package com.sanrenxing.tb.models
 		
 		public const productVector:Vector.<ProductClassElementData> = new Vector.<ProductClassElementData>();
 		
-		public var TOKEN_ID:String;// = "F380883BE1563E6A5A8ED27CEC2623E75F4C1113010206DDFF1BF2EB5D172CAE";
+		public var TOKEN_ID:String = "F380883BE1563E6A5A8ED27CEC2623E75F4C1113010206DDFF1BF2EB5D172CAE";
 		
 		public var currentProductClass:ProductClassElementData;
 		

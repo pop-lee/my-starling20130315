@@ -3,6 +3,7 @@ package com.sanrenxing.tb.screens
 	import com.sanrenxing.tb.components.MMovieClip;
 	import com.sanrenxing.tb.components.ProductDetailChildContainer;
 	import com.sanrenxing.tb.models.ModelLocator;
+	import com.sanrenxing.tb.utils.Assets;
 	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductColorElementData;
 	import com.sanrenxing.tb.vos.ProductElementData;
@@ -14,6 +15,7 @@ package com.sanrenxing.tb.screens
 	
 	import feathers.controls.ScrollContainer;
 	
+	import starling.display.Image;
 	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -90,8 +92,8 @@ package com.sanrenxing.tb.screens
 			
 			this.addEventListener(TouchEvent.TOUCH,onTouchHandler);
 			
-			_productColor.x = (this.width-_productColor.width)/2;
-			_productColor.y = (this.height-_productColor.height)/2;
+			_productColor.x = 90//(this.width-_productColor.width)/2;
+			_productColor.y = 250;//(this.height-_productColor.height)/2;
 			
 		}
 		

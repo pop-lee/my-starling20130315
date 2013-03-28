@@ -4,6 +4,8 @@ package com.sanrenxing.tb.vos
 
 	public class ProductElementData
 	{
+		public var productId:String;
+		
 		public var productName:String;
 		
 		public var productFrontImg:String;

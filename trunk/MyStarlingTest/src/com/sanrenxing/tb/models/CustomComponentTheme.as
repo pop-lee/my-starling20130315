@@ -28,6 +28,8 @@ package com.sanrenxing.tb.models
 		public static const ATTENTION_BTN:String = "attentionBtn";
 		public static const COLOR_PANE_BACKGROUND:String = "colorPaneBackground";
 		
+		public static const CLASS_BG:String = "classBG";
+		
 		public var backButtonUpSkinTextures:Texture;
 		public var backButtonDownSkinTextures:Texture;
 		
@@ -38,7 +40,7 @@ package com.sanrenxing.tb.models
 		
 		override protected function initializeRoot():void
 		{
-			this.primaryBackgroundTexture = Assets.getTexture("MAIN_BG");
+//			this.primaryBackgroundTexture = Assets.getTexture("MAIN_BG");
 			super.initializeRoot();
 		}
 		
@@ -47,6 +49,9 @@ package com.sanrenxing.tb.models
 			super.initialize();
 			
 			// set new initializers here
+			
+			//set screen bg
+			this.setInitializerForClass( ScrollContainer, classScreenBackgroundInitializer,CLASS_BG);
 			
 			this.setInitializerForClass(UserAttenctionBox, buttonInitializer);
 			this.setInitializerForClass( Button, backButtonInitializer, BACK_BTN );
@@ -57,6 +62,11 @@ package com.sanrenxing.tb.models
 			
 			this.setInitializerForClass( Button, attentionBtnInitializer, ATTENTION_BTN );
 			this.setInitializerForClass( ColorButton, colorButtonInitializer );
+		}
+		
+		public function classScreenBackgroundInitializer(container:ScrollContainer):void
+		{
+			container.backgroundSkin = new Image(Assets.getTexture("CLASS_BG"));
 		}
 		
 		public function backButtonInitializer(button:Button):void
@@ -99,7 +109,9 @@ package com.sanrenxing.tb.models
 		public function attentionBtnInitializer(button:Button):void
 		{
 			button.defaultSkin = new Image(Assets.getTexture("ATTENTION_BTN_UP"));
+			button.selectedDownSkin =  new Image(Assets.getTexture("ATTENTION_BTN_UP"));
 			button.downSkin = new Image(Assets.getTexture("ATTENTION_BTN_DOWN"));
+			button.selectedUpSkin = new Image(Assets.getTexture("ATTENTION_BTN_DOWN"));
 		}
 		
 		public function colorButtonInitializer(button:ColorButton):void

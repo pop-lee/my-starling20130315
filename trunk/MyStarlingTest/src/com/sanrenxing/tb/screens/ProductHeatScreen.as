@@ -1,9 +1,10 @@
 package com.sanrenxing.tb.screens
 {
-	import com.sanrenxing.tb.components.ProductDetailChildContainer;
 	import com.sanrenxing.tb.components.MMovieClip;
+	import com.sanrenxing.tb.components.ProductDetailChildContainer;
 	import com.sanrenxing.tb.events.GestureEvent;
 	import com.sanrenxing.tb.models.ModelLocator;
+	import com.sanrenxing.tb.utils.MBinaryLoader;
 	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductElementData;
 	import com.sanrenxing.tb.vos.ProductHeatElementData;
@@ -11,7 +12,9 @@ package com.sanrenxing.tb.screens
 	import flash.display.Bitmap;
 	import flash.events.Event;
 	import flash.geom.Point;
+	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
+	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	
 	import feathers.controls.ScrollContainer;
@@ -61,37 +64,47 @@ package com.sanrenxing.tb.screens
 			data = _model.currentProduct;
 			
 			const length:int = data.productHeatImg.length;
+			trace("========================"+new Date());
 			for(var i:int=0;i<length;i++) {
-				var loader:MLoader = new MLoader();
+				var loader:MBinaryLoader = new MBinaryLoader();
+				loader.dataFormat = URLLoaderDataFormat.BINARY;
 				loader.owner = data.productHeatImg[i];
-				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function loadCompleteHandler(event:flash.events.Event):void
+				loader.addEventListener(flash.events.Event.COMPLETE,function loadCompleteHandler(event:flash.events.Event):void
 				{
-					((event.currentTarget.loader as MLoader).owner as ProductHeatElementData).imgData = event.currentTarget.loader.content as Bitmap;
-					loadFlag++
+//					var byteArray:ByteArray = new ByteArray();
+//					byteArray.readUTFBytes(event.currentTarget.data);
+					((event.currentTarget as MBinaryLoader).owner as ProductHeatElementData).imgData = event.currentTarget.data;
+					loadFlag++;
 					if(loadFlag == length) {
+						trace("========================"+new Date());
 						loadFlag = 0;
-//						initUI();
-						loader.contentLoaderInfo.removeEventListener(flash.events.Event.COMPLETE,loadCompleteHandler);
-						loader.unload();
+						initUI();
+						loader.removeEventListener(flash.events.Event.COMPLETE,loadCompleteHandler);
+						loader.close();
 					}
 				});
-				//"assets/images/Border.jpg"
 				loader.load(new URLRequest(data.productHeatImg[i].imgUrl));
 			}
 		}
 		
 		protected function initUI():void
 		{
+			trace("========================"+new Date());
 			_container = new ScrollContainer();
 			
 			var frames:Vector.<Texture> = new Vector.<Texture>();
 			var length:int = data.productHeatImg.length;
 			for(var i:int=0;i<length;i++) {
-				frames.push(Texture.fromBitmap(data.productHeatImg[i].imgData));
+//				Starling.juggler.delayCall(Texture.fromBitmapData,0,data.productHeatImg[i].imgData.bitmapData);
+				frames.push(Texture.fromAtfData(data.productHeatImg[i].imgData));
+				trace("========================"+new Date());
 			}
+			trace("========================"+new Date());
 			productMovie = new MMovieClip(frames, 4);
 			productMovie.x = (this.width - productMovie.width)/2;
 			productMovie.y = (this.height - productMovie.height)/2;
+			productMovie.x = (this.width-600)/2;//(this.width - productMovie.width)/2;
+			productMovie.y = (this.height-441)/2;//(this.height - productMovie.height)/2;
 			
 			productMovie.stop();
 			

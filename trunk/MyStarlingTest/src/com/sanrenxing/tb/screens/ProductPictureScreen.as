@@ -63,7 +63,7 @@ package com.sanrenxing.tb.screens
 					loadFlag++
 					if(loadFlag == length) {
 						loadFlag = 0;
-//						initUI();
+						initUI();
 						loader.contentLoaderInfo.removeEventListener(flash.events.Event.COMPLETE,loadCompleteHandler);
 						loader.unload();
 					}
@@ -118,9 +118,11 @@ package com.sanrenxing.tb.screens
 				if(sizeDiff>1) {
 					if(_pictureGap>=_model.pictureMaxGap) return;
 					_pictureGap+=100* Math.abs(1-sizeDiff);
+					_pictureGap = _pictureGap>_model.pictureMaxGap?_model.pictureMaxGap:_pictureGap;
 				} else {
 					if(_pictureGap<=0) return;
 					_pictureGap-=200* Math.abs(1-sizeDiff);
+					_pictureGap = _pictureGap<0?0:_pictureGap;
 				}
 				
 				
