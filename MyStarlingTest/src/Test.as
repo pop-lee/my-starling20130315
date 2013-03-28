@@ -47,22 +47,16 @@ package
 			Log.addTarget(traceTarget);
 			
 			// init logo
-			var bmd:BitmapData = new BitmapData(this.stage.fullScreenWidth,this.stage.fullScreenHeight,false,0xe8e4e5);
-			var obj:Object = new ROOT_LOGO();
-			var logoBitmapData:BitmapData = (new ROOT_LOGO()).bitmapData as BitmapData;
-			bmd.copyPixels(
-				logoBitmapData,
-				new Rectangle(0,0,logoBitmapData.width,logoBitmapData.height),
-				new Point((this.stage.fullScreenWidth-logoBitmapData.width)/2,(this.stage.fullScreenHeight-logoBitmapData.height)/2));
-			_model.logo = new Bitmap(bmd);
+//			var bmd:BitmapData = new BitmapData(this.stage.fullScreenWidth,this.stage.fullScreenHeight,false,0xe8e4e5);
+//			var obj:Object = new ROOT_LOGO();
+//			var logoBitmapData:BitmapData = (new ROOT_LOGO()).bitmapData as BitmapData;
+//			bmd.copyPixels(
+//				logoBitmapData,
+//				new Rectangle(0,0,logoBitmapData.width,logoBitmapData.height),
+//				new Point((this.stage.fullScreenWidth-logoBitmapData.width)/2,(this.stage.fullScreenHeight-logoBitmapData.height)/2));
+			_model.logo = new ROOT_LOGO();//new Bitmap(bmd);
 			stage.addChild(_model.logo);
 			_model.stage = stage;
-			
-//			var rootLogoImage:Image = new Image(Assets.getTexture("ROOT_LOGO"));
-//			rootLogoImage.x = (rootLogo.width-rootLogoImage.width)/2;
-//			rootLogoImage.y = (rootLogo.height-rootLogoImage.height)/2;
-//			rootLogo.addChild(rootLogoImage);
-//			this.addChild(rootLogo);
 			
 			// Init Stage
 			stage.scaleMode = StageScaleMode.NO_SCALE;

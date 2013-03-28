@@ -69,9 +69,18 @@ package
 			var sqlConnection:SQLConnection = new SQLConnection();
 			sqlConnection.open(_model.DATABASE_FILE);
 			
+//			var deleteTable:SQLStatement = new SQLStatement();
+//			deleteTable.sqlConnection = sqlConnection;
+//			deleteTable.text = Properties.DROP_PUSH_NOTIFICATION_TABLE_SQL;
+//			deleteTable.execute();
+//			deleteTable.text = Properties.DROP_PRODUCT_ATTENTION_TABLE_SQL;
+//			deleteTable.execute();
+			
 			var createTable:SQLStatement = new SQLStatement();
 			createTable.sqlConnection = sqlConnection;
-			createTable.text = Properties.CREATE_FAV_PRODUCT_SQL;
+			createTable.text = Properties.CREATE_NOTIFICATION_PRODUCT_SQL;
+			createTable.execute();
+			createTable.text = Properties.CREATE_UAER_ATTENTION_SQL;
 			createTable.execute();
 			sqlConnection.close();
 			//----------------------------------------
@@ -106,7 +115,7 @@ package
 					for(var j:int=0;j<productLength;j++) {
 						var productXML:XML=productList[j];
 						var productVO:ProductElementData = new ProductElementData();
-						//					productVO.productName = productXML.attribute("productName");
+						productVO.productId = productXML.attribute("productID");
 						
 						var colorList:XMLList = productXML.elements("color");
 						var colorLength:int=colorList.length();
@@ -160,48 +169,29 @@ package
 			this._navigator = new ScreenNavigator();
 			this.addChild(this._navigator);
 			
-			var leftContainer:ScrollContainer = new ScrollContainer();
-			leftContainer.nameList.add(CustomComponentTheme.CONTROL_PANE_BACKGROUND);
-			leftContainer.width = 260;
-			leftContainer.height = _model.screenHeight;
-			leftContainer.x = -250;
-			_model.leftPane = leftContainer;
-			this.addChild(leftContainer);
-			
-			var expLeftPaneBtn:Button = new Button();
-			expLeftPaneBtn.nameList.add(CustomComponentTheme.EXP_LEFT_PANE_BTN);
-			expLeftPaneBtn.y = 150;
-			expLeftPaneBtn.addEventListener(starling.events.Event.TRIGGERED,function ():void
-			{
-				if(_model.leftPaneIsOpen) {
-					_model.leftPaneIsOpen = false;
-					expLeftPaneBtn.defaultSkin = new Image(Assets.getTexture("EXP_LEFT_PANE_BTN"));
-					UIModel.closeLeftPane();
-				} else {
-					_model.leftPaneIsOpen = true;
-					expLeftPaneBtn.defaultSkin = new Image(Assets.getTexture("CLOSE_LEFT_PANE_BTN"));
-					UIModel.expLeftPane()
-				}
-			});
-			_model.expLeftPaneBtn = expLeftPaneBtn;
-			leftContainer.addChild(expLeftPaneBtn);
+			var topContainer:ScrollContainer = new ScrollContainer();
+			topContainer.backgroundSkin = new Image(Assets.getTexture("TOP_BG"));
+			topContainer.width = 1024;
+			topContainer.y = -60;
+			_model.topPane = topContainer;
+			this.addChild(topContainer);
+			UIModel.hideTopPane();
 			
 			var backBtn:Button = new Button();
 			backBtn.nameList.add(CustomComponentTheme.BACK_BTN);
-			backBtn.x = -50;
-			backBtn.y = 100;
+			backBtn.x = 30;
+			backBtn.y = 12;
 			backBtn.addEventListener(starling.events.Event.TRIGGERED,function ():void
 			{
 				_model.starling.dispatchEvent(new starling.events.Event("backEvent"));
 			});
 			_model.backBtn = backBtn;
-			this.addChild(backBtn);
+			topContainer.addChild(backBtn);
 			
-			initUserAttentionList();
-			
-			var logo:Image = new Image(Assets.getTexture("LOGO"));
-			logo.x = 50;
-			this.addChild(logo);
+//			initUserAttentionList();
+//			var logo:Image = new Image(Assets.getTexture("LOGO"));
+//			logo.x = 50;
+//			this.addChild(logo);
 			
 			this._navigator.addScreen(_model.PRODUCT_CLASS_SCREEN, new ScreenNavigatorItem(
 				ProductClassScreen,
@@ -229,7 +219,6 @@ package
 			this._transitionManager = new ScreenFadeTransitionManager(this._navigator);
 			this._transitionManager.duration=1;
 			
-			_model.stage.removeChild(_model.logo);
 		}
 		
 		private function remoteNotificationHandler(e:RemoteNotificationEvent):void
@@ -251,7 +240,7 @@ package
 				var insertTable:SQLStatement = new SQLStatement();
 				insertTable.sqlConnection = sqlConnection;
 				
-				insertTable.text = Properties.INSERT_FAV_PRODUCT_SQL;
+				insertTable.text = Properties.INSERT_NOTIFICATION_PRODUCT_SQL;
 				insertTable.parameters[":product_id"] =1;
 				insertTable.parameters[":product_obj"] = productDBData;
 				insertTable.parameters[":is_read"] = false;
@@ -259,7 +248,7 @@ package
 				
 				var selectTable:SQLStatement = new SQLStatement();
 				selectTable.sqlConnection = sqlConnection;
-				selectTable.text = Properties.SELECT_FAV_PRODUCT_SQL;
+				selectTable.text = Properties.SELECT_NOTIFICATION_PRODUCT_SQL;
 				selectTable.execute();
 				var sqlResult:SQLResult = selectTable.getResult();
 				var entries:Array = sqlResult.data;
@@ -275,7 +264,7 @@ package
 			
 			var selectTable:SQLStatement = new SQLStatement();
 			selectTable.sqlConnection = sqlConnection;
-			selectTable.text = Properties.SELECT_FAV_PRODUCT_SQL;
+			selectTable.text = Properties.SELECT_NOTIFICATION_PRODUCT_SQL;
 			selectTable.execute();
 			var sqlResult:SQLResult = selectTable.getResult();
 			var entries:Array = sqlResult.data;

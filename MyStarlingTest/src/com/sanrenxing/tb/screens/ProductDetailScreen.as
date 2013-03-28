@@ -4,6 +4,13 @@ package com.sanrenxing.tb.screens
 	import com.sanrenxing.tb.events.GestureEvent;
 	import com.sanrenxing.tb.models.CustomComponentTheme;
 	import com.sanrenxing.tb.models.ModelLocator;
+	import com.sanrenxing.tb.services.AppService;
+	import com.sanrenxing.tb.utils.Assets;
+	import com.sanrenxing.tb.utils.Properties;
+	
+	import flash.data.SQLConnection;
+	import flash.data.SQLResult;
+	import flash.data.SQLStatement;
 	
 	import feathers.controls.Button;
 	import feathers.controls.Screen;
@@ -13,6 +20,7 @@ package com.sanrenxing.tb.screens
 	
 	import starling.animation.Tween;
 	import starling.core.Starling;
+	import starling.display.Image;
 	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -20,7 +28,6 @@ package com.sanrenxing.tb.screens
 	public class ProductDetailScreen extends Screen
 	{
 		private var _container:ProductDetailContainer;
-		private var _controlPane:ScrollContainer;
 		private var _colorPane:ScrollContainer;
 		private var _model:ModelLocator=ModelLocator.getInstance();
 		
@@ -29,6 +36,8 @@ package com.sanrenxing.tb.screens
 		private var _colorScreen:ProductColorScreen;
 		private var _heatScreen:ProductHeatScreen;
 		private var _viewScreen:ProductPictureScreen;
+		
+		private var attentionBtn:Button;
 		
 		public function ProductDetailScreen()
 		{
@@ -47,27 +56,38 @@ package com.sanrenxing.tb.screens
 			this._container.scrollerProperties.snapToPages = true;
 			this.addChild(_container);
 			
-			this._controlPane = new ScrollContainer();
-//			this.addChild(_controlPane);
-			
-			var _infoPane :ScrollContainer = new ScrollContainer();
-			_infoPane.nameList.add(CustomComponentTheme.CONTROL_PANE_BACKGROUND);
-			_infoPane.layout = layout;
-			
-			var attentionBtn:Button = new Button();
-			attentionBtn.x = 250;
-			attentionBtn.y = 150;
+			attentionBtn = new Button();
+			attentionBtn.x = 900;
+			attentionBtn.y = -150;
+//			attentionBtn.height = 132;
+			attentionBtn.isToggle = true;
 			attentionBtn.nameList.add(CustomComponentTheme.ATTENTION_BTN);
 			attentionBtn.addEventListener(Event.TRIGGERED,attentionProduct);
-			this.addChild(attentionBtn);
+			_model.starling.addChild(attentionBtn);
+			showAttentionBtn();
 			
-			this._controlPane.addChild(_infoPane);
-			this._controlPane.addChild(attentionBtn);
+			var sqlConnection:SQLConnection = new SQLConnection();
+			sqlConnection.open(_model.DATABASE_FILE);
+			var insertTable:SQLStatement = new SQLStatement();
+			insertTable.sqlConnection = sqlConnection;
+			
+			var selectTable:SQLStatement = new SQLStatement();
+			selectTable.sqlConnection = sqlConnection;
+			selectTable.text = Properties.SELECT_ATTENTION_PRODUCT_BY_PRODUCTID_SQL;
+			selectTable.parameters[":product_id"] =_model.currentProduct.productId;
+			selectTable.execute();
+			var sqlResult:SQLResult = selectTable.getResult();
+			var entries:Array = sqlResult.data;
+			if(entries&&entries.length>0) {
+				attentionBtn.isSelected = true;
+			}
+			
 			
 			this._container.layout = layout;
 			
 			_colorScreen = new ProductColorScreen();
 			_colorScreen.scrollerProperties.horizontalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
+			_colorScreen.backgroundSkin = new Image(Assets.getTexture("COLOR_BG"));
 //			_colorScreen.addEventListener(GestureEvent.Gesture_SWIPE,onGestureSwipeHandler);
 			this._container.addChild(_colorScreen);
 			
@@ -101,26 +121,27 @@ package com.sanrenxing.tb.screens
 			_heatScreen =  new ProductHeatScreen();
 			_heatScreen.scrollerProperties.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 			_heatScreen.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
+			_heatScreen.backgroundSkin = new Image(Assets.getTexture("AROUND_BG"));
 //			_heatScreen.addEventListener(GestureEvent.Gesture_SWIPE,onGestureSwipeHandler);
 			this._container.addChild(_heatScreen);
 			_viewScreen = new ProductPictureScreen();
 			_viewScreen.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 			_viewScreen.scrollerProperties.horizontalScrollPolicy = Scroller.SCROLL_POLICY_AUTO;
+			_viewScreen.backgroundSkin = new Image(Assets.getTexture("PICTURE_BG"));
 //			_viewScreen.addEventListener(GestureEvent.Gesture_SWIPE,onGestureSwipeHandler);
 			this._container.addChild(_viewScreen);
 			
 			_screenVector.push(_colorScreen,_heatScreen,_viewScreen);
 			
 			enterEffect();
+			
+			_model.starling.addEventListener("backEvent",backHandler);
 		}
 		
 		override protected function draw():void
 		{
 			this._container.width = this.actualWidth;
 			this._container.height = this.actualHeight;
-			
-			this._controlPane.width = 400;
-			this._controlPane.x = -this._controlPane.width;
 			
 //			this._colorPane.x = 750;
 //			this._colorPane.y = -this._colorPane.height;
@@ -130,18 +151,14 @@ package com.sanrenxing.tb.screens
 			_colorScreen.init();
 			_heatScreen.width = this.actualWidth;
 			_heatScreen.height = this.actualHeight;
-//			_heatScreen.init();
+			_heatScreen.init();
 			_viewScreen.width = this.actualWidth;
 			_viewScreen.height = this.actualHeight;
-//			_viewScreen.init();
+			_viewScreen.init();
 		}
 		
 		protected function enterEffect():void
 		{
-			var moveControlPaneTween:Tween = new Tween(this._controlPane,0.25);
-			moveControlPaneTween.animate("x",0);
-			Starling.juggler.delayCall(Starling.juggler.add,0.15,moveControlPaneTween);
-//			Starling.juggler.add(moveControlPaneTween);
 			
 //			var moveColorPaneTween:Tween = new Tween(this._colorPane,0.3);
 //			moveColorPaneTween.animate("y",0);
@@ -173,8 +190,25 @@ package com.sanrenxing.tb.screens
 			}
 		}
 		
+		private function showAttentionBtn():void
+		{
+			var _model:ModelLocator = ModelLocator.getInstance();
+			var moveAttentionBtnTween:Tween = new Tween(attentionBtn,0.5);
+			moveAttentionBtnTween.animate("y",0);
+			Starling.juggler.add(moveAttentionBtnTween);
+		}
+		
+		private function hideAttentionBtn():void
+		{
+			var _model:ModelLocator = ModelLocator.getInstance();
+			var moveAttentionBtnTween:Tween = new Tween(attentionBtn,0.5);
+			moveAttentionBtnTween.animate("y",-150);
+			Starling.juggler.add(moveAttentionBtnTween);
+		}
+		
 		private function attentionProduct(event:Event):void
 		{
+//			(new AppService()).addUserAttention(_model.currentProduct.productId);
 		}
 		
 		private function onTouchColorPaneHandler(event:TouchEvent):void
@@ -193,6 +227,12 @@ package com.sanrenxing.tb.screens
 				}
 			}
 			this._container.isGestureFlag = 0;
+		}
+		
+		private function backHandler(event:Event):void
+		{
+			this.dispatchEvent(new starling.events.Event("toProductList"));
+			hideAttentionBtn();
 		}
 		
 	}
