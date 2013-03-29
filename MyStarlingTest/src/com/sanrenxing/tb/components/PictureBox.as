@@ -2,7 +2,7 @@ package com.sanrenxing.tb.components
 {
 	import com.sanrenxing.tb.utils.Assets;
 	
-	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	
 	import feathers.core.FeathersControl;
 	
@@ -18,7 +18,7 @@ package com.sanrenxing.tb.components
 		private var _image:Image;
 		private var _sprite:Sprite;
 		
-		public function PictureBox(bitmap:Bitmap)
+		public function PictureBox(bitmap:BitmapData)
 		{
 			super();
 			
@@ -26,7 +26,7 @@ package com.sanrenxing.tb.components
 			_sprite.addChild(new Image(Assets.getTexture("PIC_BG")));
 			addChild(_sprite);
 			
-			_image = new Image(Texture.fromBitmap(bitmap));
+			_image = new Image(Texture.fromBitmapData(bitmap));
 			_image.x = (_sprite.width-_image.width)/2;
 			_image.y = (_sprite.height-_image.height)/2;
 			_sprite.addChild(_image);

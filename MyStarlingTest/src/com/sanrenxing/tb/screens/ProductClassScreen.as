@@ -1,7 +1,6 @@
 package com.sanrenxing.tb.screens
 {
 	import com.sanrenxing.tb.components.ProductClassBox;
-	import com.sanrenxing.tb.models.CustomComponentTheme;
 	import com.sanrenxing.tb.models.ModelLocator;
 	import com.sanrenxing.tb.utils.Assets;
 	import com.sanrenxing.tb.utils.MLoader;
@@ -58,7 +57,7 @@ package com.sanrenxing.tb.screens
 				loader.owner = _model.productVector[i];
 				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function (event:flash.events.Event):void
 				{
-					((event.currentTarget.loader as MLoader).owner as ProductClassElementData).classImgData = event.currentTarget.loader.content as Bitmap;
+					((event.currentTarget.loader as MLoader).owner as ProductClassElementData).classImgData = (event.currentTarget.loader.content as Bitmap).bitmapData;
 					loadFlag++
 					if(loadFlag == classLength) {
 						loadFlag = 0;
@@ -154,6 +153,25 @@ package com.sanrenxing.tb.screens
 		{
 			_model.currentProductClass = data;
 			this.dispatchEvent(new starling.events.Event("toProductList"));
+		}
+		
+		override public function dispose():void
+		{
+			var length:int = _productClassList.length;
+			for(var i:int=0;i<length;i++) {
+				this._container.removeChild(_productClassList[i]);
+				_productClassList[i].dispose();
+				_productClassList[i] = null;
+			}
+			const classLength:int = _model.productVector.length;
+			for(var j:int=0;j<classLength;j++) {
+				_model.productVector[j].classImgData.dispose();
+				_model.productVector[j].classImgData = null;
+			}
+			
+			this._container.dispose();
+			this._container = null;
+			super.dispose();
 		}
 	}
 }

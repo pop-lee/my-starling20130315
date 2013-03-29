@@ -61,13 +61,14 @@ package com.sanrenxing.tb.screens
 				loader.owner = data.productColorImg[i];
 				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function loadCompleteHandler(event:flash.events.Event):void
 				{
-					((event.currentTarget.loader as MLoader).owner as ProductColorElementData).imgData = event.currentTarget.loader.content as Bitmap;
+					var currentLoader:MLoader = event.currentTarget.loader;
+					((event.currentTarget.loader as MLoader).owner as ProductColorElementData).imgData = (currentLoader.content as Bitmap).bitmapData;
 					loadFlag++
 					if(loadFlag == length) {
 						loadFlag = 0;
 						initUI();
-						loader.contentLoaderInfo.removeEventListener(flash.events.Event.COMPLETE,loadCompleteHandler);
-						loader.unload();
+						currentLoader.contentLoaderInfo.removeEventListener(flash.events.Event.COMPLETE,loadCompleteHandler);
+						currentLoader.unload();
 					}
 				});
 				loader.load(new URLRequest(data.productColorImg[i].imgUrl));
@@ -81,7 +82,8 @@ package com.sanrenxing.tb.screens
 			var frames:Vector.<Texture> = new Vector.<Texture>();
 			var length:int = data.productColorImg.length;
 			for(var i:int=0;i<length;i++) {
-				frames.push(Texture.fromBitmap(data.productColorImg[i].imgData));
+				frames.push(Texture.fromBitmapData(data.productColorImg[i].imgData));
+				data.productColorImg[i].imgData.dispose();
 			}
 			_productColor = new MMovieClip(frames,1);
 			_productColor.stop();

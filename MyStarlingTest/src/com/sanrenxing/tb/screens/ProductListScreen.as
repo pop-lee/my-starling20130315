@@ -12,6 +12,7 @@ package com.sanrenxing.tb.screens
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.net.URLRequest;
+	import flash.system.System;
 	
 	import feathers.controls.Screen;
 	import feathers.controls.ScrollContainer;
@@ -26,6 +27,7 @@ package com.sanrenxing.tb.screens
 	import starling.events.TouchEvent;
 	
 	[Event(name="toProductDetail",type="starling.events.Event")]
+	[Event(name="toProductClass",type="starling.events.Event")]
 	
 	public class ProductListScreen extends Screen
 	{
@@ -85,18 +87,25 @@ package com.sanrenxing.tb.screens
 			for(var i:int=0;i<length;i++) {
 				var loader:MLoader = new MLoader();
 				loader.owner = data.productListVO[i];
-				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function (event:flash.events.Event):void
-				{
-					((event.currentTarget.loader as MLoader).owner as ProductElementData).productFrontImgData = event.currentTarget.loader.content as Bitmap;
-					loadFlag++
-					if(loadFlag == length) {
-						loadFlag = 0;
-						initUI();
-						loader.unload();
-					}
-				});
-				//"assets/images/Border.jpg"
-				loader.load(new URLRequest(data.productListVO[i].productFrontImg));
+//				if(data.productListVO[i].productFrontImgData) {
+//					initUI();
+//				} else {
+					loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function loadCompleteHandler(event:flash.events.Event):void
+					{
+						var currentLoader:MLoader = event.currentTarget.loader;
+						var currentData:ProductElementData = currentLoader.owner as ProductElementData;
+						currentData.productFrontImgData = (currentLoader.content as Bitmap).bitmapData;
+						loadFlag++
+						if(loadFlag == length) {
+							loadFlag = 0;
+							initUI();
+							currentLoader.contentLoaderInfo.removeEventListener(flash.events.Event.COMPLETE,loadCompleteHandler);
+							currentLoader.unload();
+						}
+					});
+					//"assets/images/Border.jpg"
+					loader.load(new URLRequest(data.productListVO[i].productFrontImg));
+//				}
 			}
 		}
 		
@@ -108,6 +117,10 @@ package com.sanrenxing.tb.screens
 			this._container.scrollerProperties.horizontalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 			this._container.scrollerProperties.verticalScrollPolicy = Scroller.SCROLL_POLICY_OFF;
 			this._container.backgroundSkin = new Image(Assets.getTexture("LIST_BG"));
+			for(var a:int=0;a<4000;a++) {
+				Assets.getTexture("LIST_BG");
+			}
+			
 			this.addChild(this._container);
 			
 			const showProductLength:int = Math.min(_model.showCount4Stage,data.productListVO.length);
@@ -460,8 +473,35 @@ package com.sanrenxing.tb.screens
 		
 		private function backHandler(event:starling.events.Event):void
 		{
-			this.dispatchEvent(new starling.events.Event("toProductClass"));
 			UIModel.hideTopPane();
+			this.dispatchEvent(new starling.events.Event("toProductClass"));
+		}
+		
+		override public function dispose():void
+		{
+			var length:int = _protuctsArr.length;
+			_protuctsArr[_focusProductIndex].removeEventListener(TouchEvent.TOUCH,touchProductHandler);
+			for(var i:int=0;i<length;i++) {
+				if(i>=leftIndex&&i<=rightIndex) {
+					this._container.removeChild(_protuctsArr[i]);
+				}
+				_protuctsArr[i].removeEventListener(TouchEvent.TOUCH,touchProductHandler);
+				_protuctsArr[i].dispose();
+				_protuctsArr[i] = null;
+			}
+			const productLength:int = data.productListVO.length;
+			for(var j:int=0;j<productLength;j++) {
+				data.productListVO[j].productFrontImgData.dispose();
+				data.productListVO[j].productFrontImgData = null;
+			}
+			
+			_protuctsArr = null;
+			_container.removeEventListener(TouchEvent.TOUCH, onTouch); 
+			_container.dispose();
+			_container = null;
+			_model.starling.removeEventListener("backEvent",backHandler);
+			System.gc();
+			super.dispose();
 		}
 	}
 }

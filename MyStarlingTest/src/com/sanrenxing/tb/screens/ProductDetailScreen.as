@@ -135,7 +135,9 @@ package com.sanrenxing.tb.screens
 			
 			enterEffect();
 			
-			_model.starling.addEventListener("backEvent",backHandler);
+			if(!_model.starling.hasEventListener("backEvent")) {
+				_model.starling.addEventListener("backEvent",backHandler);
+			}
 		}
 		
 		override protected function draw():void
