@@ -1,6 +1,7 @@
 package com.sanrenxing.tb.utils
 {
     import flash.display.Bitmap;
+    import flash.display.BitmapData;
     import flash.media.Sound;
     import flash.utils.ByteArray;
     import flash.utils.Dictionary;
@@ -48,10 +49,15 @@ package com.sanrenxing.tb.utils
             {
                 var data:Object = create(name);
                 
-                if (data is Bitmap)
-                    sTextures[name] = Texture.fromBitmap(data as Bitmap, true, false, sContentScaleFactor);
-                else if (data is ByteArray)
+                if (data is Bitmap) {
+					sTextures[name] = Texture.fromBitmapData((data as Bitmap).bitmapData, true, false, sContentScaleFactor);
+					data.bitmapData.dispose();
+					data = null;
+//                    sTextures[name] = Texture.fromBitmap(data as Bitmap, true, false, sContentScaleFactor);
+				} 
+                else if (data is ByteArray) {
                     sTextures[name] = Texture.fromAtfData(data as ByteArray, sContentScaleFactor);
+				}
             }
             
             return sTextures[name];

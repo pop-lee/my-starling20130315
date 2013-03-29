@@ -3,8 +3,6 @@ package com.sanrenxing.tb.components
 	import com.sanrenxing.tb.utils.Assets;
 	import com.sanrenxing.tb.vos.ProductClassElementData;
 	
-	import flash.geom.Matrix;
-	
 	import starling.animation.Transitions;
 	import starling.animation.Tween;
 	import starling.core.Starling;
@@ -24,6 +22,9 @@ package com.sanrenxing.tb.components
 		
 		private var _highLight:Image;
 		
+		private var _texture:Texture;
+		private var _bgTexture:Texture;
+		
 		public function ProductClassBox(data:ProductClassElementData)
 		{
 			super();
@@ -33,17 +34,20 @@ package com.sanrenxing.tb.components
 //			_label.x = -100;//_label.height;
 //			addChild(_label);
 			var mRenderTexture:RenderTexture = new RenderTexture(data.classImgData.width,data.classImgData.height);
-			mRenderTexture.draw(new Image(Assets.getTexture("CLASSBOX_BG")));
-			mRenderTexture.draw(new Image(Texture.fromBitmap(data.classImgData)));
+			_bgTexture = Assets.getTexture("CLASSBOX_BG");
+			mRenderTexture.draw(new Image(_bgTexture));
+			_texture = Texture.fromBitmapData(data.classImgData);
+			mRenderTexture.draw(new Image(_texture));
+			data.classImgData.dispose();
 				
 			_image = new Image(mRenderTexture);
 			addChild(_image);
 			
-			_image.addEventListener(TouchPhase.BEGAN, onTouch);
 		}
 		
 		public function showEffect():void
 		{
+			if(!_image) return;
 			this.visible = true;
 			
 			_image.scaleX = _image.scaleY = 0.5;
@@ -70,9 +74,22 @@ package com.sanrenxing.tb.components
 			}
 		}
 		
-		private function onTouch(event:TouchPhase):void
+		override public function dispose():void
 		{
-			trace("mouseClick");
+			if(_highLight) {
+				this.removeChild(_highLight);
+				_highLight.dispose();
+				_highLight =  null;
+			}
+			this.removeChild(_image);
+			_image.dispose();
+			_image = null;
+			_texture.dispose();
+			_texture = null;
+//			_bgTexture.dispose();
+//			_bgTexture = null;
+			
+			super.dispose();
 		}
 	}
 }

@@ -59,13 +59,14 @@ package com.sanrenxing.tb.screens
 				loader.owner = data.productPicture[i];
 				loader.contentLoaderInfo.addEventListener(flash.events.Event.COMPLETE,function loadCompleteHandler(event:flash.events.Event):void
 				{
-					((event.currentTarget.loader as MLoader).owner as ProductPictureElementData).imgData = event.currentTarget.loader.content as Bitmap;
+					var currentLoader:MLoader = event.currentTarget.loader;
+					((event.currentTarget.loader as MLoader).owner as ProductPictureElementData).imgData = (currentLoader.content as Bitmap).bitmapData;
 					loadFlag++
 					if(loadFlag == length) {
 						loadFlag = 0;
 						initUI();
-						loader.contentLoaderInfo.removeEventListener(flash.events.Event.COMPLETE,loadCompleteHandler);
-						loader.unload();
+						currentLoader.contentLoaderInfo.removeEventListener(flash.events.Event.COMPLETE,loadCompleteHandler);
+						currentLoader.unload();
 					}
 				});
 				//"assets/images/Border.jpg"
@@ -79,6 +80,7 @@ package com.sanrenxing.tb.screens
 			_pictureGap = 0;
 			for(var i:int=0;i<picturesLength;i++) {
 				var picture:PictureBox = new PictureBox(data.productPicture[i].imgData);
+				data.productPicture[i].imgData.dispose();
 				picture.initAngle = (Math.ceil(Math.random()*10))*6-30;
 				picture.angle = picture.initAngle;
 				picture.x = this.actualWidth/2;

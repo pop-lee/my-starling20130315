@@ -1,6 +1,6 @@
 package com.sanrenxing.tb.vos
 {
-	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 
 	public class ProductElementData
 	{
@@ -10,7 +10,7 @@ package com.sanrenxing.tb.vos
 		
 		public var productFrontImg:String;
 		
-		public var productFrontImgData:Bitmap;
+		public var productFrontImgData:BitmapData;
 		
 		public var productColorImg:Vector.<ProductColorElementData>=new Vector.<ProductColorElementData>();
 		
