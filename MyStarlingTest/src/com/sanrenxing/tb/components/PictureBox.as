@@ -18,6 +18,8 @@ package com.sanrenxing.tb.components
 		private var _image:Image;
 		private var _sprite:Sprite;
 		
+		private var _texture:Texture;
+		
 		public function PictureBox(bitmap:BitmapData)
 		{
 			super();
@@ -26,7 +28,9 @@ package com.sanrenxing.tb.components
 			_sprite.addChild(new Image(Assets.getTexture("PIC_BG")));
 			addChild(_sprite);
 			
-			_image = new Image(Texture.fromBitmapData(bitmap));
+			_texture = Texture.fromBitmapData(bitmap);
+			
+			_image = new Image(_texture);
 			_image.x = (_sprite.width-_image.width)/2;
 			_image.y = (_sprite.height-_image.height)/2;
 			_sprite.addChild(_image);
@@ -50,6 +54,21 @@ package com.sanrenxing.tb.components
 		public function get angle():int
 		{
 			return _angle;
+		}
+		
+		override public function dispose():void
+		{
+			_sprite.removeChild(_image);
+			_image.dispose();
+			_image = null;
+			this.removeChild(_sprite);
+			_sprite.dispose();
+			_sprite = null;
+			
+			_texture.dispose();
+			_texture = null;
+			
+			super.dispose();
 		}
 	}
 }

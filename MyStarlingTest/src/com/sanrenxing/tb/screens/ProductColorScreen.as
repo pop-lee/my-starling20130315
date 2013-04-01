@@ -3,7 +3,6 @@ package com.sanrenxing.tb.screens
 	import com.sanrenxing.tb.components.MMovieClip;
 	import com.sanrenxing.tb.components.ProductDetailChildContainer;
 	import com.sanrenxing.tb.models.ModelLocator;
-	import com.sanrenxing.tb.utils.Assets;
 	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductColorElementData;
 	import com.sanrenxing.tb.vos.ProductElementData;
@@ -15,13 +14,11 @@ package com.sanrenxing.tb.screens
 	
 	import feathers.controls.ScrollContainer;
 	
-	import starling.display.Image;
-	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.textures.Texture;
 	
-	[Event(name="toProductHeatScreen",type="starling.events.Event")]
+//	[Event(name="toProductHeatScreen",type="starling.events.Event")]
 	
 	public class ProductColorScreen extends ProductDetailChildContainer
 	{
@@ -40,6 +37,11 @@ package com.sanrenxing.tb.screens
 		private var _curX:int;  //捕捉当前帧的mouseX
 		private var _dir:int;  //代表滑动方向-1为向左,1为向右
 		private var _oldDir:int;
+		
+		/**
+		 * 存储每帧的图像纹理
+		 */
+		private var frames:Vector.<Texture> = new Vector.<Texture>();
 		
 		public function ProductColorScreen()
 		{
@@ -79,7 +81,6 @@ package com.sanrenxing.tb.screens
 		{
 			data = _model.currentProduct;
 			
-			var frames:Vector.<Texture> = new Vector.<Texture>();
 			var length:int = data.productColorImg.length;
 			for(var i:int=0;i<length;i++) {
 				frames.push(Texture.fromBitmapData(data.productColorImg[i].imgData));
@@ -150,6 +151,22 @@ package com.sanrenxing.tb.screens
 //					}
 				}
 			}
+		}
+		
+		override public function dispose():void
+		{
+			_productColor.dispose();
+			_productColor = null;
+			
+			var length:int = frames.length;
+			for(var i:int=0;i<length;i++) {
+				frames[i].dispose();
+				frames[i] = null;
+			}
+			frames = null;
+			
+			this.removeEventListener(TouchEvent.TOUCH,onTouchHandler);
+			super.dispose();
 		}
 		
 	}

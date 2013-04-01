@@ -81,7 +81,7 @@ package com.sanrenxing.tb.screens
 			if(entries&&entries.length>0) {
 				attentionBtn.isSelected = true;
 			}
-			
+			sqlConnection.close();
 			
 			this._container.layout = layout;
 			
@@ -135,9 +135,9 @@ package com.sanrenxing.tb.screens
 			
 			enterEffect();
 			
-			if(!_model.starling.hasEventListener("backEvent")) {
+//			if(!_model.starling.hasEventListener("backEvent")) {
 				_model.starling.addEventListener("backEvent",backHandler);
-			}
+//			}
 		}
 		
 		override protected function draw():void
@@ -205,6 +205,11 @@ package com.sanrenxing.tb.screens
 			var _model:ModelLocator = ModelLocator.getInstance();
 			var moveAttentionBtnTween:Tween = new Tween(attentionBtn,0.5);
 			moveAttentionBtnTween.animate("y",-150);
+			moveAttentionBtnTween.onComplete = function ():void
+			{
+				_model.starling.removeChild(attentionBtn);
+				attentionBtn = null;
+			};
 			Starling.juggler.add(moveAttentionBtnTween);
 		}
 		
@@ -234,8 +239,22 @@ package com.sanrenxing.tb.screens
 		private function backHandler(event:Event):void
 		{
 			this.dispatchEvent(new starling.events.Event("toProductList"));
-			hideAttentionBtn();
 		}
 		
+		override public function dispose():void
+		{
+			var length :int = _screenVector.length;
+			for(var i:int=0;i<length;i++) {
+				this._container.removeChild(_screenVector[i]);
+				_screenVector[i].dispose();
+				_screenVector[i]=null;
+			}
+			_screenVector = null;
+			
+			this._container.removeEventListener(GestureEvent.Gesture_SWIPE,onGestureSwipeHandler);
+			attentionBtn.removeEventListener(Event.TRIGGERED,attentionProduct);
+			hideAttentionBtn();
+			super.dispose();
+		}
 	}
 }
