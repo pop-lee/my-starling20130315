@@ -1,7 +1,7 @@
 package com.sanrenxing.tb.screens
 {
-	import com.sanrenxing.tb.components.ProductDetailChildContainer;
 	import com.sanrenxing.tb.components.PictureBox;
+	import com.sanrenxing.tb.components.ProductDetailChildContainer;
 	import com.sanrenxing.tb.models.ModelLocator;
 	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductElementData;
@@ -204,6 +204,21 @@ package com.sanrenxing.tb.screens
 				_isOpenStatus = false;
 				Starling.juggler.add(closeTween);
 			}
+		}
+		
+		override public function dispose():void
+		{
+			this.removeEventListener(TouchEvent.TOUCH,onTouchHandler);
+			
+			var length:int = pictureVector.length;
+			for(var i:int=0;i<length;i++) {
+				this.removeChild(pictureVector[i]);
+				pictureVector[i].dispose();
+				pictureVector[i] = null;
+			}
+			pictureVector = null;
+			
+			super.dispose();
 		}
 	}
 }

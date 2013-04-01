@@ -5,16 +5,13 @@ package com.sanrenxing.tb.screens
 	import com.sanrenxing.tb.events.GestureEvent;
 	import com.sanrenxing.tb.models.ModelLocator;
 	import com.sanrenxing.tb.utils.MBinaryLoader;
-	import com.sanrenxing.tb.utils.MLoader;
 	import com.sanrenxing.tb.vos.ProductElementData;
 	import com.sanrenxing.tb.vos.ProductHeatElementData;
 	
-	import flash.display.Bitmap;
 	import flash.events.Event;
 	import flash.geom.Point;
 	import flash.net.URLLoaderDataFormat;
 	import flash.net.URLRequest;
-	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	
 	import feathers.controls.ScrollContainer;
@@ -29,7 +26,7 @@ package com.sanrenxing.tb.screens
 	{
 		private var data:ProductElementData;
 		
-		private var _container:ScrollContainer;
+//		private var _container:ScrollContainer;
 		
 		private var productMovie:MMovieClip;
 		
@@ -48,6 +45,10 @@ package com.sanrenxing.tb.screens
 		 * 当前交互是否为移动
 		 */
 		private var _isClick:Boolean=false;
+		/**
+		 * 存储每帧的图像纹理
+		 */
+		private var frames:Vector.<Texture> = new Vector.<Texture>();
 		
 		public function ProductHeatScreen()
 		{
@@ -90,9 +91,8 @@ package com.sanrenxing.tb.screens
 		protected function initUI():void
 		{
 			trace("========================"+new Date());
-			_container = new ScrollContainer();
+//			_container = new ScrollContainer();
 			
-			var frames:Vector.<Texture> = new Vector.<Texture>();
 			var length:int = data.productHeatImg.length;
 			for(var i:int=0;i<length;i++) {
 //				Starling.juggler.delayCall(Texture.fromBitmapData,0,data.productHeatImg[i].imgData.bitmapData);
@@ -174,13 +174,32 @@ package com.sanrenxing.tb.screens
 			}
 		}
 		
-		private function onGestureHandler(event:GestureEvent):void
+//		private function onGestureHandler(event:GestureEvent):void
+//		{
+//			if(event.offsetY == -1) {
+//				this.dispatchEvent(new starling.events.Event("toProductColorScreen"));
+//			} else if(event.offsetY == 1) {
+//				this.dispatchEvent(new starling.events.Event("toProductShowScreen"));
+//			}
+//		}
+		
+		override public function dispose():void
 		{
-			if(event.offsetY == -1) {
-				this.dispatchEvent(new starling.events.Event("toProductColorScreen"));
-			} else if(event.offsetY == 1) {
-				this.dispatchEvent(new starling.events.Event("toProductShowScreen"));
+			this.removeEventListener(TouchEvent.TOUCH, onTouch); 
+			
+			if(productMovie) {
+				this.removeChild(productMovie);
+				productMovie.dispose();
+				productMovie = null;
 			}
+			
+			var length:int = frames.length;
+			for(var i:int=0;i<length;i++) {
+				frames[i].dispose();
+				frames[i] = null;
+			}
+			frames = null;
+			super.dispose();
 		}
 		
 	}
